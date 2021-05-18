@@ -1,0 +1,52 @@
+﻿<dotnetnuke type="ResourceFile" version="5.0">
+  <files>
+    <file>
+      <path>js/</path>
+      <name>app.js</name>
+    </file>
+    <file>
+      <path>js/</path>
+      <name>chunk-vendors.js</name>
+    </file>
+    <file>
+      <path>Scripts/</path>
+      <name>ItemView.js</name>
+    </file>
+    <file>
+      <path>Scripts/</path>
+      <name>QuickSettings.js</name>
+    </file>
+    <file>
+      <path>App_LocalResources/</path>
+      <name>Settings.ascx.resx</name>
+    </file>
+    <file>
+      <path>App_LocalResources/</path>
+      <name>View.resx</name>
+    </file>
+    <file>
+      <path />
+      <name>License.txt</name>
+    </file>
+    <file>
+      <path />
+      <name>module.css</name>
+    </file>
+    <file>
+      <path />
+      <name>ProductConfigurator.dnn</name>
+    </file>
+    <file>
+      <path />
+      <name>ReleaseNotes.txt</name>
+    </file>
+    <file>
+      <path />
+      <name>Settings.ascx</name>
+    </file>
+    <file>
+      <path />
+      <name>View.html</name>
+    </file>
+  </files>
+</dotnetnuke>

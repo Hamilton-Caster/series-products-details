@@ -1,0 +1,41 @@
+﻿[JavaScript:{ jsname: "JQuery" }]
+[JavaScript:{ path: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"}]
+[JavaScript:{ path: "~/Resources/Shared/scripts/dnn.jquery.js"}]
+[JavaScript:{ path: "~/DesktopModules/AcuitiSolutions/ProductConfigurator/scripts/ItemView.js"}]
+
+<div id="vue-app-wrapper-[ModuleContext:ModuleId]">
+    <div id="app-[ModuleContext:ModuleId]">
+        <div>
+            <a @click="loadItems" href="#">[Resx:{key:"Refresh"}]</a>
+            <a v-if="userCanAdd" @click="addItem" href="#">[Resx:{key:"EditModule"}]</a>
+        </div>
+        <div>
+            <template v-for="(group, index) in items">
+                <div><h3> Group Name: {{group.DISPLAY_CAPTION}} Type: {{group.TYPE}}</h3></div>
+                <template v-for="(item, index) in group.GROUP_ATTRIBUTES">
+                    <div>
+                        <h5>Attribute Name: {{item.CAPTION}}</h5>
+                        <br><span>Attribute Type: {{item.DISPLAY_TYPE}}</span>
+                        <template v-for="(attribute, index) in item.ATTRIBUTE_VALUES">
+                            <div>
+                                <span>Attribute Caption: {{attribute.ATTRIBUTE_CAPTION}}</span> &nbsp; <span>Attribute Value: {{attribute.ATTRIBUTE_VALUE}}</span>
+                                <br><span>Is of Type Range: {{attribute.IS_TYPE_RANGE}}</span><span>Min Range: {{attribute.RANGE_MIN}}</span><span>Max Range: {{attribute.RANGE_MAX}}</span>
+
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script language="javascript" type="text/javascript">
+    jQuery(function ($) {
+        ProductConfigurator.InitApp([ModuleContext: ModuleId], '[ModuleContext:EditMode]' === 'True');
+    });
+
+</script>

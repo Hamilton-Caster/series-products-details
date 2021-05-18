@@ -1,0 +1,39 @@
+// Colors
+$borderColor:         rgba(216, 216, 216, 1);
+$white:               rgba(255, 255, 255, 1);
+$black:               rgba(48, 48, 48, 1);
+
+// Primary Color
+$primaryColor:        rgba(215, 33, 41, 1);
+$primaryColorHover:   rgba(255, 0, 13, 1);
+$primaryColorActive:  rgba(165, 44, 49, 1);
+
+// Greys
+$lightGreyBg:         rgba(246, 246, 246, 1);
+$lightGrey:           rgba(196, 196, 196, 1);
+$mediumLightGrey:     rgba(180, 180, 180, 1);
+$mediumGrey:          rgba(153, 153, 153, 1);
+$mediumDarkGrey:      rgba(129, 129, 129, 1);
+$darkGrey:            rgba(112, 112, 112, 1);
+$darkGreyBg:          rgba( 48, 48, 48, 1);
+
+// Tokens
+$tokenGreyBorder:      $darkGrey;
+$tokenGrey:            $mediumGrey;
+
+:root {
+  --md-theme-default-primary: $white;
+  --md-theme-default-primary-on-background: $white;
+  --md-theme-default-accent: $primaryColor;
+  --md-theme-default-theme: light;
+}
+
+
+// Media sizes
+$small:               480px;
+$medium:              768px;
+$large:               992px;
+$x-large:             1367px;
+$xx-large:            1600px;
+$xxx-large:           2000px;
+

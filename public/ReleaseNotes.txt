@@ -1,0 +1,20 @@
+﻿<h3>Acuitisolutions.Modules.ProductConfigurator</h3>
+<p class="Contributor">
+	AcuitiSolutions, LLC. <br />
+	<a href="mailto:support@acuitisolutions.com">support@acuitisolutions.com</a><br />
+	<a href="https://www.acuitisolutions.com/">https://www.acuitisolutions.com/</a><br />
+</p>
+<hr/>
+<div class="License">
+	<h3>HAC Product Configurator</h3>
+	<p class="Owner">
+		<b>Version CHANGEME</b><br /><br />
+	</p>
+	<p>This version is built using VueJS for the Product Configurator. </p>
+	
+	<h4>Bug Fixes</h4>
+	<ul>
+			<li>N/A</li>
+	</ul>
+	
+</div>

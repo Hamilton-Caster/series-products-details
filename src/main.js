@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-import App_MegaMenu from './App_MegaMenu'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 import VueMaterial from 'vue-material'
@@ -27,21 +26,6 @@ Vue.use(pagination)
 
 // Directives
 Vue.directive('scroll', Scroll)
-// Vue.directive('click-outside', {
-//   bind: function (el, binding, vnode) {
-//     el.clickOutsideEvent = function (event) {
-//       // here I check that click was outside the el and his children
-//       if (!(el == event.target || el.contains(event.target))) {
-//         // and if it did, call method provided in attribute value
-//         vnode.context[binding.expression](event);
-//       }
-//     };
-//     document.getElementById('productFinderLink').addEventListener('click', el.clickOutsideEvent)
-//   },
-//   unbind: function (el) {
-//     document.getElementById('productFinderLink').removeEventListener('click', el.clickOutsideEvent)
-//   },
-// });
 
 Vue.component(FontAwesomeIcon.name, FontAwesomeIcon)
 
@@ -58,11 +42,4 @@ Vue.config.errorHandler = (err, vm, info) => {
 
 new Vue({
   render: h => h(App)
-}).$mount('#app')
-
-// Global components
-Vue.component('app_megaMenu', require('./App_MegaMenu').default)
-
-new Vue({
-  render: h => h(App_MegaMenu)
-}).$mount('#app_megaMenu')
+}).$mount('#catalogApp')

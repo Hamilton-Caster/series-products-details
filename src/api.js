@@ -13,7 +13,7 @@ const getHeaders = function (svc, antiForgery) {
 
 const getServiceRoot = function (path) {
   let serviceRoot = `${location.origin}`;
-  serviceRoot += "/API/" + path + "/";
+  serviceRoot += "/DesktopModules/" + path + "/";
   return serviceRoot;
 }
 
@@ -21,11 +21,12 @@ const getTabId = function () {
   return dnn.getVar("sf_tabId", -1)
 }
 
-const getListAPI = function (svc, antiForgery, configuratorParams) {
-  let headers = getHeaders(svc, antiForgery)
-  let baseUrl = `${getServiceRoot(svc.path)}ProductConfigurator/GetProductConfiguratorResults`
-  return axios.post(baseUrl, configuratorParams, {headers})
-    .then(res => res)
+const GridDetailsLink = `${getServiceRoot('AcuitiSolutions')}CatalogGrid/API/List/GetGridDetails`
+
+const getListAPI = function (commodityID, detailLink) {
+  // let headers = getHeaders(svc, antiForgery)
+  return axios.get(`${GridDetailsLink}?commodityID=${commodityID}&detailLink=${detailLink}`)
+    .then(res => res.data)
 }
 
 const GetMenuAPI = function (ProductID) {

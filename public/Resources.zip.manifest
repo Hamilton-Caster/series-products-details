@@ -1,28 +1,60 @@
 ﻿<dotnetnuke type="ResourceFile" version="5.0">
   <files>
     <file>
-      <path>js/</path>
-      <name>app.js</name>
+      <path>Scripts/Tablesaw_3.30/</path>
+      <name>GridStyles.css</name>
     </file>
     <file>
-      <path>js/</path>
-      <name>chunk-vendors.js</name>
+      <path>Scripts/Tablesaw_3.30/</path>
+      <name>tablesaw-init.js</name>
+    </file>
+    <file>
+      <path>Scripts/Tablesaw_3.30/</path>
+      <name>tablesaw.css</name>
+    </file>
+    <file>
+      <path>Scripts/Tablesaw_3.30/</path>
+      <name>tablesaw.jquery.js</name>
+    </file>
+    <file>
+      <path>Scripts/Tablesaw_3.30/</path>
+      <name>tablesaw.js</name>
     </file>
     <file>
       <path>Scripts/</path>
-      <name>ItemView.js</name>
+      <name>CatalogGridScripts.js</name>
     </file>
     <file>
       <path>Scripts/</path>
-      <name>QuickSettings.js</name>
+      <name>jquery.qtip.min.css</name>
+    </file>
+    <file>
+      <path>Scripts/</path>
+      <name>jquery.qtip.min.js</name>
+    </file>
+    <file>
+      <path>Scripts/</path>
+      <name>jquery.wowwindow.min.js</name>
     </file>
     <file>
       <path>App_LocalResources/</path>
-      <name>Settings.ascx.resx</name>
+      <name>CatalogGrid.ascx.resx</name>
     </file>
     <file>
       <path>App_LocalResources/</path>
-      <name>View.resx</name>
+      <name>EditCatalogGrid.ascx.resx</name>
+    </file>
+    <file>
+      <path />
+      <name>AcuitiSolutions.CatalogGrid.dnn</name>
+    </file>
+    <file>
+      <path />
+      <name>CatalogGrid.ascx</name>
+    </file>
+    <file>
+      <path />
+      <name>EditCatalogGrid.ascx</name>
     </file>
     <file>
       <path />
@@ -34,15 +66,7 @@
     </file>
     <file>
       <path />
-      <name>ProductConfigurator.dnn</name>
-    </file>
-    <file>
-      <path />
       <name>ReleaseNotes.txt</name>
-    </file>
-    <file>
-      <path />
-      <name>Settings.ascx</name>
     </file>
     <file>
       <path />

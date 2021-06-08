@@ -9,7 +9,7 @@ export class Enumeration {
   }
 
   getArray (nameProperty = 'name', valueProperty = 'value') {
-    let array = Object.entries(this).map(([key,value]) => {
+    let array = Object.entries(this).map(([key]) => {
       if (typeof this[key] !== 'function') {
         return {
           [nameProperty]: key,

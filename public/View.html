@@ -1,14 +1,17 @@
 ﻿[JavaScript:{ path: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"}]
-[JavaScript:{ path: "~/DesktopModules/AcuitiSolutions/ProductConfigurator/js/chunk-vendors.js", provider:"DnnFormBottomProvider"}]
-[JavaScript:{ path: "~/DesktopModules/AcuitiSolutions/ProductConfigurator/js/app.js", provider:"DnnFormBottomProvider"}]
+[JavaScript:{ path: "~/DesktopModules/CatalogGrid/js/chunk-vendors.js", provider:"DnnFormBottomProvider"}]
+[JavaScript:{ path: "~/DesktopModules/CatalogGrid/js/app.js", provider:"DnnFormBottomProvider"}]
 
 <!-- vue-app-wrapper-[ModuleContext:ModuleId]-->
 <div id="app-[ModuleContext:ModuleId]"
-     data-module-usage="[ModuleContext:HAC_ProdConfig_ModuleUsage]">
-  <div id="app">
+     data-detail-link="[ModuleContext:DetailLink]"
+     data-commodity-id="[ModuleContext:Commodity]">
+  <div id="catalogApp"
+       data-commodity-id="[ModuleContext:Commodity]">
     <app
 		module-id="[ModuleContext:ModuleId]"
 		edit-mode="[ModuleContext:EditMode]"
+    data-commodity-id="[ModuleContext:CommodityCode]"
 		service-framework="[ModuleContext:serviceFramework]" />
   </div>
 </div>

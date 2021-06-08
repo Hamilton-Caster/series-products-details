@@ -15,6 +15,8 @@ import { faCaretUp } from '@fortawesome/pro-solid-svg-icons/faCaretUp'
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
 import { faSortDown } from '@fortawesome/pro-duotone-svg-icons/faSortDown'
 import { faSortUp } from '@fortawesome/pro-duotone-svg-icons/faSortUp'
+import { faSort } from '@fortawesome/pro-duotone-svg-icons/faSort'
+import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 
 export default {
   faAngleDown,
@@ -23,6 +25,8 @@ export default {
   faCaretDown,
   faCaretUp,
   faTimes,
+  faSort,
   faSortDown,
-  faSortUp
+  faSortUp,
+  faStar
 }

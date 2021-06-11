@@ -73,7 +73,7 @@ export default {
       }
       this.$emit('sort', {
         index: this.index,
-        fieldName: this.header.FieldName,
+        propName: this.header.propName,
         sortDirection
       })
     }

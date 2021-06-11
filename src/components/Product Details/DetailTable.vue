@@ -1,84 +1,88 @@
 <template>
-  <table
-    class="series-table">
-    <!--    <colgroup>-->
-    <!--      <col :span="emptyColsLength">-->
-    <!--      <col :span="selectedGroupOption.cols" class="column-group">-->
-    <!--    </colgroup>-->
-    <thead>
-      <!--      <tr>-->
-      <!--        <th-->
-      <!--          :colspan="emptyColsLength"></th>-->
-      <!--        <th class="groupHeader" :colspan="selectedGroupOption.cols">{{ groupValue}}</th>-->
-      <!--      </tr>-->
-      <tr>
-        <table-header
-          v-for="(header, index) in headers"
-          :index="index"
-          :class="getClass(header)"
-          :key="header.GridConfigID"
-          :header-text="header.FieldCaption"
-          :sort-details="sortDetails"
-          :header="header"
-          @sort="onSort"/>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="row in tableRows"
-        :key="row.partId">
-        <td
-          v-for="header in headers"
-          :key="header.GridConfigID"
-          :class="getClass(header)">
-          <template v-if="header.IsFractionColumn">
-            <a
-              v-if="header.FieldHasHyperLink"
-              :href="getLinkUrl(row[header.FieldName])">
-              <font-awesome-icon
-                v-if="hasPronto(row[header.FieldName])"
-                class="pronto-shipment-star"
-                :icon="['fas', 'star']" />
-              <span v-html="convertToFraction(row[header.FieldName])"></span>
-            </a>
-            <template
-              v-else>
-              <font-awesome-icon
-                v-if="hasPronto(row[header.FieldName])"
-                class="pronto-shipment-star"
-                :icon="['fas', 'star']" />
-              <span
-                v-html="convertToFraction(row[header.FieldName])"></span>
+  <transition
+    name="fade"
+    mode="out-in">
+    <table
+      class="series-table">
+      <!--    <colgroup>-->
+      <!--      <col :span="emptyColsLength">-->
+      <!--      <col :span="selectedGroupOption.cols" class="column-group">-->
+      <!--    </colgroup>-->
+      <thead>
+        <!--      <tr>-->
+        <!--        <th-->
+        <!--          :colspan="emptyColsLength"></th>-->
+        <!--        <th class="groupHeader" :colspan="selectedGroupOption.cols">{{ groupValue}}</th>-->
+        <!--      </tr>-->
+        <tr>
+          <table-header
+            v-for="(header, index) in headers"
+            :index="index"
+            :class="getClass(header)"
+            :key="header.GridConfigID"
+            :header-text="header.FieldCaption"
+            :sort-details="sortDetails"
+            :header="header"
+            @sort="onSort"/>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="row in tableRows"
+          :key="row.partId">
+          <td
+            v-for="header in headers"
+            :key="header.GridConfigID"
+            :class="getClass(header)">
+            <template v-if="header.IsFractionColumn">
+              <a
+                v-if="header.FieldHasHyperLink"
+                :href="getLinkUrl(row[header.propName])">
+                <font-awesome-icon
+                  v-if="hasPronto(row[header.propName])"
+                  class="pronto-shipment-star"
+                  :icon="['fas', 'star']" />
+                <span v-html="convertToFraction(row[header.propName])"></span>
+              </a>
+              <template
+                v-else>
+                <font-awesome-icon
+                  v-if="hasPronto(row[header.propName])"
+                  class="pronto-shipment-star"
+                  :icon="['fas', 'star']" />
+                <span
+                  v-html="convertToFraction(row[header.propName])"></span>
+              </template>
             </template>
-          </template>
-          <wheel-type-popover
-            v-else-if="header.FieldName === 'WHEEL_TYPE'"
-            :type="getType(row[header.FieldName])" />
-          <template v-else>
-            <a
-              v-if="header.FieldHasHyperLink"
-              :href="getLinkUrl(row[header.FieldName])">
-              <font-awesome-icon
-                v-if="hasPronto(row[header.FieldName])"
-                class="pronto-shipment-star"
-                :icon="['fas', 'star']" />
-              <span
-                v-html="displayValue(row[header.FieldName])"></span>
-            </a>
-            <template
-              v-else>
-              <font-awesome-icon
-                v-if="hasPronto(row[header.FieldName])"
-                class="pronto-shipment-star"
-                :icon="['fas', 'star']" />
-              <span
-                v-html="displayValue(row[header.FieldName])"></span>
+            <wheel-type-popover
+              v-else-if="header.propName === 'WHEEL_TYPE'"
+              :type="getType(row[header.propName])" />
+            <template v-else>
+              <a
+                v-if="header.FieldHasHyperLink"
+                :href="getLinkUrl(row[header.propName])">
+                <font-awesome-icon
+                  v-if="hasPronto(row[header.propName])"
+                  class="pronto-shipment-star"
+                  :icon="['fas', 'star']" />
+                <span
+                  v-html="displayValue(row[header.propName])"></span>
+              </a>
+              <template
+                v-else>
+                <font-awesome-icon
+                  v-if="hasPronto(row[header.propName])"
+                  class="pronto-shipment-star"
+                  :icon="['fas', 'star']" />
+                <span
+                  v-html="displayValue(row[header.propName])"></span>
+              </template>
             </template>
-          </template>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </transition>
 </template>
 <script>
 import TableHeader from '../Shared/table-header'
@@ -186,10 +190,10 @@ export default {
       // let filterColumn = this.headers.find(header => header.IsFilterColumn)
       if (filterColumn != null) {
         productFilter.filterLabel = filterColumn.FieldCaption
-        productFilter.filterProperty = filterColumn.FieldName
+        productFilter.filterProperty = filterColumn.propName
         let filterValues = []
         this.originalTableRows.forEach(row => {
-          filterValues.push(row[filterColumn.FieldName])
+          filterValues.push(row[filterColumn.propName])
         })
         productFilter.filterList = [...new Set(filterValues)]
       } else {
@@ -220,7 +224,7 @@ export default {
       this.$emit('update:sortDetails', {
         direction: $event.sortDirection,
         sortIndex: $event.index,
-        fieldName: $event.fieldName
+        propName: $event.propName
       })
     },
     getType (typeName) {

@@ -150,14 +150,14 @@ export default {
   },
   watch: {
     sortDetails: {
-      handler: function ({direction, sortIndex, fieldName}) {
+      handler: function ({direction, sortIndex, propName}) {
         let tableRows = JSON.parse(JSON.stringify(this.tableRows))
-        console.log('handler :: direction, sortIndex, fieldName', direction, sortIndex, fieldName)
+        console.log('handler :: direction, sortIndex, propName', direction, sortIndex, propName)
         if (direction === null) {
           tableRows = this.originalTableRows
         } else {
-          console.log('handler :: ', fieldName)
-          let sortParam = direction === SortDirection.Descending ? fieldName : `-${fieldName}`
+          console.log('handler :: ', propName)
+          let sortParam = direction === SortDirection.Descending ? propName : `-${propName}`
           tableRows.sort(utilities.dynamicSort(sortParam))
 
         }
@@ -182,6 +182,9 @@ export default {
       })
     },
     buildHeaders (gridHeaderInfo) {
+      gridHeaderInfo.forEach(header => {
+        header.propName = `${header.FieldIndexPosition}_${header.FieldName}`
+      })
       this.headers = gridHeaderInfo.sort((a, b) => a.FieldIndexPosition - b.FieldIndexPosition)
       this.buildOptionsList()
     },
@@ -228,8 +231,8 @@ export default {
           partId: row.BasePartID
         }
         row.FieldInfo.forEach(field => {
-
-          rowValue[field.FieldName] = field.FieldValue
+          let propName = `${parseInt(field.FieldPosition)}_${field.FieldName}`
+          rowValue[propName] = field.FieldValue
         })
         this.tableRows.push(rowValue)
       })
@@ -275,7 +278,7 @@ export default {
       &.controls {
         align-items: center;
         justify-content: space-between;
-        border-bottom: 2px solid $lightGrey;
+        border-bottom: 2px solid $borderColor;
 
         .button-group {
           margin-right: 3rem;

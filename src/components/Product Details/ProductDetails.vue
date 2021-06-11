@@ -158,7 +158,7 @@ export default {
         } else {
           console.log('handler :: ', propName)
           let sortParam = direction === SortDirection.Descending ? propName : `-${propName}`
-          tableRows.sort(utilities.dynamicSort(sortParam))
+          tableRows.sort(utilities.dynamicSort(sortParam, 1, true))
 
         }
         console.log('handler :: this.selectedFilter', this.selectedFilter)
@@ -194,7 +194,7 @@ export default {
         if (header.FieldBanner !== '') {
           optionsList.push(header.FieldBanner)
         }
-        header.FieldProperty = header.FieldName
+        header.FieldProperty = header.propName
       })
       let updatedList = [...new Set(optionsList)]
       let objectsList = []
@@ -251,6 +251,9 @@ export default {
       } else {
         this.tableRows = this.originalTableRows
       }
+      let sortParam = this.sortDetails.direction === SortDirection.Descending ? this.sortDetails.propName : `-${this.sortDetails.propName}`
+      this.tableRows.sort(utilities.dynamicSort(sortParam, 1, true))
+
       console.log('onFilterChange :: $event', $event)
     }
   },

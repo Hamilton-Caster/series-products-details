@@ -90,7 +90,7 @@ export default {
 <style lang="scss">
   .table-header {
     cursor: pointer;
-    
+
     button {
       background-color: transparent;
       color: #000;

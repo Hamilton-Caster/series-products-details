@@ -51,6 +51,9 @@
                 v-html="convertToFraction(row[header.FieldName])"></span>
             </template>
           </template>
+          <wheel-type-popover
+            v-else-if="header.FieldName === 'WHEEL_TYPE'"
+            :type="getType(row[header.FieldName])" />
           <template v-else>
             <a
               v-if="header.FieldHasHyperLink"
@@ -79,9 +82,10 @@
 </template>
 <script>
 import TableHeader from '../Shared/table-header'
+import WheelTypePopover from './wheel-type-popover'
 export default {
   name: 'detail-table',
-  components: {TableHeader},
+  components: {WheelTypePopover, TableHeader},
   props: {
     emptyColsLength: {
       type: Number
@@ -113,6 +117,9 @@ export default {
     },
     sortDetails: {
       type: Object
+    },
+    wheelTypeList: {
+      type: Array
     }
   },
   data: () => ({
@@ -215,6 +222,9 @@ export default {
         sortIndex: $event.index,
         fieldName: $event.fieldName
       })
+    },
+    getType (typeName) {
+      return this.wheelTypeList.find(type => type.WheelType === typeName)
     }
   }
 }

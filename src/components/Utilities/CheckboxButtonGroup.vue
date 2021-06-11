@@ -72,7 +72,7 @@ export default {
   position: relative;
   background: $primaryColor;
   padding: 0;
-  height: 2.5em;
+  height: 3.43em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -91,7 +91,7 @@ export default {
   .slider {
     position: absolute;
     width: 8rem;
-    height: 2.5em;
+    height: 3.43em;
     transition: all .4s ease;
   }
 

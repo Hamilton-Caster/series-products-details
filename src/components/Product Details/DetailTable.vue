@@ -58,25 +58,10 @@
               v-else-if="header.propName === 'WHEEL_TYPE'"
               :type="getType(row[header.propName])" />
             <template v-else>
-              <a
-                v-if="header.FieldHasHyperLink"
-                :href="getLinkUrl(row[header.propName])">
-                <font-awesome-icon
-                  v-if="hasPronto(row[header.propName])"
-                  class="pronto-shipment-star"
-                  :icon="['fas', 'star']" />
-                <span
-                  v-html="displayValue(row[header.propName])"></span>
-              </a>
-              <template
-                v-else>
-                <font-awesome-icon
-                  v-if="hasPronto(row[header.propName])"
-                  class="pronto-shipment-star"
-                  :icon="['fas', 'star']" />
-                <span
-                  v-html="displayValue(row[header.propName])"></span>
-              </template>
+              <table-cell-content
+                :get-link-url="getLinkUrl(row[header.propName])"
+                :header="header"
+                :row="row" />
             </template>
           </td>
         </tr>
@@ -87,9 +72,11 @@
 <script>
 import TableHeader from '../Shared/table-header'
 import WheelTypePopover from './wheel-type-popover'
+import TableCellContent from './TableCellContent'
+
 export default {
   name: 'detail-table',
-  components: {WheelTypePopover, TableHeader},
+  components: {TableCellContent, WheelTypePopover, TableHeader},
   props: {
     emptyColsLength: {
       type: Number

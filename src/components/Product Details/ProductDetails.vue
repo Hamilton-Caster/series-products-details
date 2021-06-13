@@ -1,81 +1,90 @@
 <template>
-  <div>
-    <div class="table-meta-header">
-      <div class="info">
-        <p class="toggle-button-label">
-          Select 'Swivel Caster' or 'Rigid Caster' then click on desired model number to see more details.
-        </p>
-        <span class="pronto-shipment">
-          <font-awesome-icon
-            class="pronto-shipment-star"
-            :icon="['fas', 'star']" /> = 24-48 Hour PRONTO® Shipment.</span>
-      </div>
-      <div class="controls">
-        <table-tabs
-          v-if="typeOptions.length > 0"
-          :tabs="typeOptions"
-          :selected-tab="groupValue"
-          @change="onTypeChange" />
-        <div class="filter" v-if="productFilter.filterList && productFilter.filterList.length > 0">
-          <span>Filter by: </span>
-          <md-field class="table-filter">
-            <label
-              for="tableFilter"
-              v-html="productFilter.filterLabel"></label>
-            <md-select
-              md-dense
-              v-model="selectedFilter"
-              @md-selected="onFilterChange"
-              name="tableFilter">
-              <md-option value="">
-                &nbsp;<span v-html="`Select ${productFilter.filterLabel}`"></span>
-              </md-option>
-              <md-option
-                v-for="option in productFilter.filterList"
-                :key="option"
-                :value="option">
-                {{ option }}
-              </md-option>
-            </md-select>
-          </md-field>
-          <!--          <label>-->
-          <!--            <span-->
-          <!--              v-html="productFilter.filterLabel"></span>:-->
-          <!--            <select-->
-          <!--              v-model="selectedFilter"-->
-          <!--              @change="onFilterChange">-->
-          <!--              <option :value="null">Filter</option>-->
-          <!--              <option-->
-          <!--                v-for="option in productFilter.filterList"-->
-          <!--                :key="option"-->
-          <!--                :value="option">{{ option }}</option>-->
-          <!--            </select>-->
-          <!--          </label>-->
+  <div class="detail-table-wrap">
+    <spinner class="spinner" v-show="showSpinner" />
+    <div v-show="!showSpinner">
+      <div class="table-meta-header">
+        <div class="info">
+          <p class="toggle-button-label">
+            Select 'Swivel Caster' or 'Rigid Caster' then click on desired model number to see more details.
+          </p>
+          <div class="pronto-shipment">
+            <span>
+              <font-awesome-icon
+                class="pronto-shipment-star"
+                :icon="['fas', 'star']" /> = 24-48 Hour PRONTO® Shipment.</span>
+            <a href="/Warranty">
+              <font-awesome-icon
+                class="pronto-shipment-star"
+                :icon="['fas', 'shield-check']" /> = Hamilton’s Three Year Product Warranty.</a>
+          </div>
+        </div>
+        <div class="controls">
+          <table-tabs
+            v-if="typeOptions.length > 0"
+            :tabs="typeOptions"
+            :selected-tab="groupValue"
+            @change="onTypeChange" />
+          <div class="filter" v-if="productFilter.filterList && productFilter.filterList.length > 0">
+            <span>Filter by: </span>
+            <md-field class="table-filter">
+              <label
+                for="tableFilter"
+                v-html="productFilter.filterLabel"></label>
+              <md-select
+                md-dense
+                v-model="selectedFilter"
+                @md-selected="onFilterChange"
+                name="tableFilter">
+                <md-option value="">
+                  &nbsp;<span v-html="`Select ${productFilter.filterLabel}`"></span>
+                </md-option>
+                <md-option
+                  v-for="option in productFilter.filterList"
+                  :key="option"
+                  :value="option">
+                  {{ option }}
+                </md-option>
+              </md-select>
+            </md-field>
+            <!--          <label>-->
+            <!--            <span-->
+            <!--              v-html="productFilter.filterLabel"></span>:-->
+            <!--            <select-->
+            <!--              v-model="selectedFilter"-->
+            <!--              @change="onFilterChange">-->
+            <!--              <option :value="null">Filter</option>-->
+            <!--              <option-->
+            <!--                v-for="option in productFilter.filterList"-->
+            <!--                :key="option"-->
+            <!--                :value="option">{{ option }}</option>-->
+            <!--            </select>-->
+            <!--          </label>-->
+          </div>
         </div>
       </div>
+      <detail-list
+        v-if="isMobile"
+        :table-rows="tableRows"
+        :original-table-rows="originalTableRows"
+        :empty-cols-length="emptyColsLength"
+        :group-value="groupValue"
+        :headers="headers"
+        :selected-group-option="selectedGroupOption"
+        :base-part-details-url="basePartDetailsUrl"
+        :product-filter.sync="productFilter" />
+      <detail-table
+        v-else
+        :table-rows="tableRows"
+        :original-table-rows="originalTableRows"
+        :empty-cols-length="emptyColsLength"
+        :group-value="groupValue"
+        :headers="headers"
+        :selected-group-option="selectedGroupOption"
+        :base-part-details-url="basePartDetailsUrl"
+        :product-filter.sync="productFilter"
+        :sort-details.sync="sortDetails"
+        :wheel-type-list="wheelTypeInfo" />
     </div>
-    <detail-list
-      v-if="isMobile"
-      :table-rows="tableRows"
-      :original-table-rows="originalTableRows"
-      :empty-cols-length="emptyColsLength"
-      :group-value="groupValue"
-      :headers="headers"
-      :selected-group-option="selectedGroupOption"
-      :base-part-details-url="basePartDetailsUrl"
-      :product-filter.sync="productFilter" />
-    <detail-table
-      v-else
-      :table-rows="tableRows"
-      :original-table-rows="originalTableRows"
-      :empty-cols-length="emptyColsLength"
-      :group-value="groupValue"
-      :headers="headers"
-      :selected-group-option="selectedGroupOption"
-      :base-part-details-url="basePartDetailsUrl"
-      :product-filter.sync="productFilter"
-      :sort-details.sync="sortDetails"
-      :wheel-type-list="wheelTypeInfo" />
   </div>
 </template>
 
@@ -87,10 +96,16 @@ import DetailList from './DetailList'
 import utilities from '../../utilities/helpers'
 import {SortDirection} from '../enums'
 import TableTabs from '../Utilities/TableTabs'
+import Spinner from '../Utilities/Spinner'
 
 export default {
   name: 'product-details',
-  components: {TableTabs, DetailTable, DetailList, CheckboxButtonGroup},
+  components: {
+    Spinner,
+    TableTabs,
+    DetailTable,
+    DetailList
+  },
   props: {
     moduleId: {
       type: String
@@ -133,6 +148,7 @@ export default {
       filterList: [],
       filterLabel: null,
       selectedFilter: null,
+      showSpinner: true,
       sortDetails: {
         direction: null,
         sortIndex: null
@@ -179,6 +195,7 @@ export default {
         this.wheelTypeInfo = res.WheelTypeInfo
         this.buildHeaders(res.GridHeaderInfo)
         this.buildRows(res.GridPartsInfo)
+        this.showSpinner = false
       })
     },
     buildHeaders (gridHeaderInfo) {
@@ -371,6 +388,13 @@ export default {
   .pronto-shipment {
     justify-self: flex-end;
     color: $primaryColor;
+    display: flex;
+    flex-direction: column;
   }
 
+  .detail-table-wrap {
+    min-height: 30rem;
+  }
+  .spinner {
+  }
 </style>

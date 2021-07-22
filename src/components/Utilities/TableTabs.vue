@@ -56,8 +56,11 @@
 
   .table-tabs {
     // Tabs
-    --tab-font-size: 1.5rem;
-    @media screen and (min-width: $medium)  { --tab-font-size: 2rem; }
+    --tab-font-size: 1.25rem;
+    @media screen and (min-width: $medium)  { --tab-font-size: 1rem; }
+    @media screen and (min-width: $large)  { --tab-font-size: 1.25rem; }
+    @media screen and (min-width: $x-large)  { --tab-font-size: 1.5rem; }
+    @media screen and (min-width: $xxx-large)  { --tab-font-size: 2rem; }
     $tabFontSize:         var(--tab-font-size);
 
     $tabFontColor:        $black;
@@ -67,8 +70,10 @@
 
     margin-bottom: 1.5rem;
     position: relative;
+    float: left;
     @media screen and (min-width: $small) {
-      margin-bottom: -.85rem;
+      margin-top: 0.75rem;
+      margin-bottom: -0.1rem;
     }
 
     .md-tabs {
@@ -78,6 +83,12 @@
           background-color: transparent;
           //border-bottom: 1px solid $borderColor;
           //padding-bottom: .3rem;
+          @media screen and (max-width: $medium)  {
+            flex-direction: column;
+            .md-ripple {
+              justify-content: left;
+            }
+          }
 
           .md-button {
             font-size: $tabFontSize;
@@ -87,6 +98,11 @@
             margin-right: 0;
             transition: opacity .2s;
             line-height: 2rem;
+            max-width: 24rem;
+
+            @media screen and (max-width: $medium)  {
+              text-align: left;
+            }
 
             &:hover {
               background-color: transparent;
@@ -105,6 +121,9 @@
 
           .md-tabs-indicator {
             background-color: $primaryColor;
+            @media screen and (max-width: $medium)  {
+              display: none;
+            }
           }
         }
       }

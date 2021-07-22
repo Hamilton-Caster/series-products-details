@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-table-wrap">
+  <div class="detail-table-wrap clear">
     <spinner class="spinner" v-show="showSpinner" />
     <div v-show="!showSpinner">
       <div class="table-meta-header">
@@ -18,7 +18,7 @@
                 :icon="['fas', 'shield-check']" /> = Hamilton’s Three Year Product Warranty.</a>
           </div>
         </div>
-        <div class="controls">
+        <div class="controls clearfix">
           <table-tabs
             v-if="typeOptions.length > 0"
             :tabs="typeOptions"
@@ -62,8 +62,18 @@
           </div>
         </div>
       </div>
-      <detail-list
-        v-if="isMobile"
+      <!--      <detail-list-->
+      <!--        v-if="isMobile"-->
+      <!--        :table-rows="tableRows"-->
+      <!--        :original-table-rows="originalTableRows"-->
+      <!--        :empty-cols-length="emptyColsLength"-->
+      <!--        :group-value="groupValue"-->
+      <!--        :headers="headers"-->
+      <!--        :hide-low-priority="hideLowPriority"-->
+      <!--        :selected-group-option="selectedGroupOption"-->
+      <!--        :base-part-details-url="basePartDetailsUrl" />-->
+      <detail-card
+        class="detail-card"
         :table-rows="tableRows"
         :original-table-rows="originalTableRows"
         :empty-cols-length="emptyColsLength"
@@ -71,9 +81,11 @@
         :headers="headers"
         :selected-group-option="selectedGroupOption"
         :base-part-details-url="basePartDetailsUrl"
-        :product-filter.sync="productFilter" />
+        :sort-details.sync="sortDetails"
+        :wheel-type-list="wheelTypeInfo" />
+
       <detail-table
-        v-else
+        class="detail-table"
         :table-rows="tableRows"
         :original-table-rows="originalTableRows"
         :empty-cols-length="emptyColsLength"
@@ -81,7 +93,6 @@
         :headers="headers"
         :selected-group-option="selectedGroupOption"
         :base-part-details-url="basePartDetailsUrl"
-        :product-filter.sync="productFilter"
         :sort-details.sync="sortDetails"
         :wheel-type-list="wheelTypeInfo" />
     </div>
@@ -90,21 +101,20 @@
 
 <script>
 import {getListAPI} from '../../api'
-import CheckboxButtonGroup from '../Utilities/CheckboxButtonGroup'
 import DetailTable from './DetailTable'
-import DetailList from './DetailList'
 import utilities from '../../utilities/helpers'
 import {SortDirection} from '../enums'
 import TableTabs from '../Utilities/TableTabs'
 import Spinner from '../Utilities/Spinner'
+import DetailCard from './DetailCard'
 
 export default {
   name: 'product-details',
   components: {
+    DetailCard,
     Spinner,
     TableTabs,
-    DetailTable,
-    DetailList
+    DetailTable
   },
   props: {
     moduleId: {
@@ -138,7 +148,8 @@ export default {
       basePartDetailsUrl: null,
       gridDetails: {},
       headers: [],
-      isMobile: false,
+      hideLowPriority: true,
+      isMobile: true,
       tableRows: [],
       originalTableRows: [],
       typeOptions: [],
@@ -255,23 +266,54 @@ export default {
       })
       this.originalTableRows = JSON.parse(JSON.stringify(this.tableRows))
       this.selectedGroupOption = this.typeOptions.find(option => option.value === this.groupValue)
-
+      this.getFilters()
     },
     onTypeChange ($event) {
       this.groupValue = $event
       this.selectedGroupOption = this.typeOptions.find(option => option.value === $event)
     },
-    onFilterChange ($event) {
-      let filterValue = $event
+    onFilterChange (filterValue) {
       if (filterValue !== '') {
         this.tableRows = this.originalTableRows.filter(row => row[this.productFilter.filterProperty] === filterValue)
       } else {
         this.tableRows = this.originalTableRows
       }
-      let sortParam = this.sortDetails.direction === SortDirection.Descending ? this.sortDetails.propName : `-${this.sortDetails.propName}`
-      this.tableRows.sort(utilities.dynamicSort(sortParam, 1, true))
+      if (this.sortDetails.propName != null) {
+        let sortParam = this.sortDetails.direction === SortDirection.Descending ? this.sortDetails.propName : `-${this.sortDetails.propName}`
+        this.tableRows.sort(utilities.dynamicSort(sortParam, 1, true))
+      }
 
-      console.log('onFilterChange :: $event', $event)
+      console.log('onFilterChange :: $event', filterValue)
+    },
+    getFilters () {
+      this.productFilter = []
+      // let filterLabel = null
+      // let filterProperty = null
+      // let filterList = []
+      let productFilter = {
+        filterLabel: null,
+        filterProperty: null,
+        filterList: []
+      }
+      // TODO: Temporary to get a filter value
+      let filterColumn = this.headers.find(header => header.IsFilterColumn)
+      // let filterColumn = this.headers.find(header => header.IsFilterColumn)
+      if (filterColumn != null) {
+        productFilter.filterLabel = filterColumn.FieldCaption
+        productFilter.filterProperty = filterColumn.propName
+        let filterValues = []
+        this.originalTableRows.forEach(row => {
+          filterValues.push(row[filterColumn.propName])
+        })
+        productFilter.filterList = [...new Set(filterValues)]
+      } else {
+        productFilter.filterLabel = null
+        productFilter.filterProperty = null
+      }
+      // this.$emit('update:filterLabel', filterLabel)
+      // this.$emit('update:filterProperty', filterProperty)
+      // this.$emit('update:filterList', filterList)
+      this.productFilter = productFilter
     }
   },
   created () {
@@ -292,18 +334,31 @@ export default {
     > div {
       display: flex;
       flex-direction: row;
+      @media screen and (min-width: $large)  {
+        flex-direction: row;
+      }
       &.info {
         justify-content: space-between;
+        flex-direction: column;
+        padding-top: 1rem;
+        @media screen and (min-width: $large)  {
+          padding-top: unset;
+          flex-direction: row;
+        }
       }
       &.controls {
+        display: block;
         align-items: center;
         justify-content: space-between;
         border-bottom: 2px solid $borderColor;
+        margin-top: 1.5rem;
 
         .button-group {
           margin-right: 3rem;
+          float: left;
         }
         .filter {
+          float: right;
           margin-left: 4rem;
           display: flex;
           align-items: center;
@@ -390,6 +445,7 @@ export default {
     color: $primaryColor;
     display: flex;
     flex-direction: column;
+    min-width: 300px;
   }
 
   .detail-table-wrap {
@@ -397,4 +453,20 @@ export default {
   }
   .spinner {
   }
+  .detail-table {
+    display: none;
+  }
+  .detail-card {
+    display: block;
+  }
+
+  @media screen and (min-width: $medium) {
+    .detail-table {
+      display: block;
+    }
+    .detail-card {
+      display: none;
+    }
+  }
+
 </style>

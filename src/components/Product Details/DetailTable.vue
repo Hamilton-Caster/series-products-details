@@ -2,71 +2,53 @@
   <transition
     name="fade"
     mode="out-in">
-    <table
-      class="series-table">
-      <!--    <colgroup>-->
-      <!--      <col :span="emptyColsLength">-->
-      <!--      <col :span="selectedGroupOption.cols" class="column-group">-->
-      <!--    </colgroup>-->
-      <thead>
-        <!--      <tr>-->
-        <!--        <th-->
-        <!--          :colspan="emptyColsLength"></th>-->
-        <!--        <th class="groupHeader" :colspan="selectedGroupOption.cols">{{ groupValue}}</th>-->
-        <!--      </tr>-->
-        <tr>
-          <table-header
-            v-for="(header, index) in headers"
-            :index="index"
-            :class="getClass(header)"
-            :key="header.GridConfigID"
-            :header-text="header.FieldCaption"
-            :sort-details="sortDetails"
-            :header="header"
-            @sort="onSort"/>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="row in tableRows"
-          :key="row.partId">
-          <td
-            v-for="header in headers"
-            :key="header.GridConfigID"
-            :class="getClass(header)">
-            <template v-if="header.IsFractionColumn">
-              <a
-                v-if="header.FieldHasHyperLink"
-                :href="getLinkUrl(row[header.propName])">
-                <font-awesome-icon
-                  v-if="hasPronto(row[header.propName])"
-                  class="pronto-shipment-star"
-                  :icon="['fas', 'star']" />
-                <span v-html="convertToFraction(row[header.propName])"></span>
-              </a>
-              <template
-                v-else>
-                <font-awesome-icon
-                  v-if="hasPronto(row[header.propName])"
-                  class="pronto-shipment-star"
-                  :icon="['fas', 'star']" />
-                <span
-                  v-html="convertToFraction(row[header.propName])"></span>
+    <div class="responsive-table">
+      <table
+        class="series-table">
+        <!--    <colgroup>-->
+        <!--      <col :span="emptyColsLength">-->
+        <!--      <col :span="selectedGroupOption.cols" class="column-group">-->
+        <!--    </colgroup>-->
+        <thead>
+          <!--      <tr>-->
+          <!--        <th-->
+          <!--          :colspan="emptyColsLength"></th>-->
+          <!--        <th class="groupHeader" :colspan="selectedGroupOption.cols">{{ groupValue}}</th>-->
+          <!--      </tr>-->
+          <tr>
+            <table-header
+              v-for="(header, index) in headers"
+              :index="index"
+              :class="getClass(header)"
+              :key="header.GridConfigID"
+              :header-text="header.FieldCaption"
+              :sort-details="sortDetails"
+              :header="header"
+              @sort="onSort"/>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="row in tableRows"
+            :key="row.partId">
+            <td
+              v-for="header in headers"
+              :key="header.GridConfigID"
+              :class="getClass(header)">
+              <wheel-type-popover
+                v-if="header.FieldName === 'WHEEL_TYPE'"
+                :type="getType(row[header.propName])" />
+              <template v-else>
+                <table-cell-content
+                  :base-part-details-url="basePartDetailsUrl"
+                  :header="header"
+                  :row="row" />
               </template>
-            </template>
-            <wheel-type-popover
-              v-else-if="header.propName === 'WHEEL_TYPE'"
-              :type="getType(row[header.propName])" />
-            <template v-else>
-              <table-cell-content
-                :get-link-url="getLinkUrl(row[header.propName])"
-                :header="header"
-                :row="row" />
-            </template>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </transition>
 </template>
 <script>
@@ -119,37 +101,7 @@ export default {
     //   sortIndex: null
     // }
   }),
-  watch: {
-    tableRows: {
-      handler: function (tableRows) {
-        if (tableRows && tableRows.length > 0) {
-          this.getFilters()
-        }
-      },
-      immediate: true
-    }
-  },
   methods: {
-    convertToFraction (value) {
-      let fractionCheck = /(\d+)\/(\d+)$/g
-      // Check to see if value contains a fraction
-      if (value.match(fractionCheck)) {
-        // Split the value between whole number and fraction
-        let numberArray = value.split(' ')
-        numberArray.forEach((fraction, index) => {
-          // check each segment to see if it is the fraction.
-          if (fraction.match(fractionCheck)) {
-            // if this is the fraction, split it at the "/"
-            let fractionArray = fraction.split('/')
-            // convert the fractional value to formatted html
-            let formattedFraction = `<sup>${fractionArray[0]}</sup>&frasl;<sub>${fractionArray[1]}</sub>`
-            // if this is not the first number, rejoin whole number and formatted fraction, otherwise return formatted fraction
-            value = index > 0 ? `${numberArray[0]} ${formattedFraction}` : formattedFraction
-          }
-        })
-      }
-      return value
-    },
     getClass (header) {
       let classList = ''
       if (header.FieldBanner != null && header.FieldBanner != '') {
@@ -158,56 +110,15 @@ export default {
           classList += ' hide'
         }
       }
-      if (header.PersistPriority === 99 && !header.FieldHasHyperLink) {
+      if (header.PersistPriority !== 99 || header.FieldHasHyperLink) {
         classList += ' light'
       }
       return classList
-    },
-    getFilters () {
-      // let filterLabel = null
-      // let filterProperty = null
-      // let filterList = []
-      let productFilter = {
-        filterLabel: null,
-        filterProperty: null,
-        filterList: []
-      }
-      // TODO: Temporary to get a filter value
-      let filterColumn = this.headers.find(header => header.IsFilterColumn)
-      // let filterColumn = this.headers.find(header => header.IsFilterColumn)
-      if (filterColumn != null) {
-        productFilter.filterLabel = filterColumn.FieldCaption
-        productFilter.filterProperty = filterColumn.propName
-        let filterValues = []
-        this.originalTableRows.forEach(row => {
-          filterValues.push(row[filterColumn.propName])
-        })
-        productFilter.filterList = [...new Set(filterValues)]
-      } else {
-        productFilter.filterLabel = null
-        productFilter.filterProperty = null
-      }
-      // this.$emit('update:filterLabel', filterLabel)
-      // this.$emit('update:filterProperty', filterProperty)
-      // this.$emit('update:filterList', filterList)
-      this.$emit('update:productFilter', productFilter)
-    },
-    hasPronto (str) {
-      let amp = '@'
-      // if (str.slice(-amp.length) === amp) {
-      //   str.slice(0, -1)
-      // }
-      return str.slice(-1) === amp
-    },
-    getLinkUrl (value) {
-      let cleanedValue = value.replaceAll('@','')
-      return `${this.basePartDetailsUrl}/PartId/${cleanedValue}`
     },
     displayValue (str) {
       return str.replaceAll('@', '')
     },
     onSort ($event) {
-      console.log('sort :: $event', $event)
       this.$emit('update:sortDetails', {
         direction: $event.sortDirection,
         sortIndex: $event.index,

@@ -12,8 +12,23 @@
             :key="index"
             class="model-number"
             :class="getClass(headerItem)"
-            v-if="headerItem.FieldName.includes('CATALOG_NUMBER')"
-            v-html="headerItem[headerItem.FieldName]">
+            v-if="headerItem.FieldName.includes('CATALOG_NUMBER')">
+            <a
+              :href="getLinkUrl(headerItem[headerItem.FieldName])">
+              <span
+                v-html="getDisplayValue(headerItem[headerItem.FieldName])"></span>
+              <font-awesome-icon
+                v-if="hasPronto"
+                title="24-48 Hour PRONTO® Shipment."
+                class="pronto-shipment-star"
+                :icon="['fas', 'star']" />
+              <font-awesome-icon
+                v-if="hasWarranty"
+                title="Hamilton’s Three Year Product Warranty."
+                class="pronto-shipment-star"
+                :icon="['fas', 'shield-check']" />
+
+            </a>
           </h3>
           <span
             :key="index"
@@ -22,31 +37,28 @@
             v-else-if="headerItem.FieldName.includes('WHEEL_TYPE')"
             v-html="headerItem[headerItem.FieldName]">
           </span>
+          <div
+            :key="index"
+            class="bearing-size"
+            v-else-if="headerItem.FieldName.includes('BEARING_SIZE')">
+            <table-cell-content
+              :base-part-details-url="basePartDetailsUrl"
+              :header="headerItem[headerItem.FieldName]"
+              :row="row" />
+          </div>
         </template>
       </div>
       <ul>
         <li
           v-for="(detailItem, index) in row.sectionDetailItems"
           :key="index"
+          v-show="checkVisibility(detailItem)"
           :class="getClass(detailItem)">
           <span class="caption">{{ detailItem.FieldCaption }}:</span>
-
-          <template v-if="detailItem.IsFractionColumn">
-            <a
-              v-if="detailItem.FieldHasHyperLink"
-              href="#" v-html="convertToFraction(row[detailItem.FieldName])"></a>
-            <span
-              v-else
-              v-html="convertToFraction(row[detailItem.FieldName])"></span>
-          </template>
-          <template v-else>
-            <a
-              v-if="detailItem.FieldHasHyperLink"
-              href="#" v-html="row[detailItem.FieldName]"></a>
-            <span
-              v-else
-              v-html="row[detailItem.FieldName]"></span>
-          </template>
+          <table-cell-content
+            :base-part-details-url="basePartDetailsUrl"
+            :header="detailItem"
+            :row="row" />
         </li>
 
       </ul>
@@ -54,12 +66,22 @@
   </ul>
 </template>
 <script>
+import TableCellContent from './TableCellContent'
+import utilities from '../../utilities/helpers'
+
 export default {
   name: 'detail-list',
+  components: { TableCellContent },
   props: {
-    emptyColsLength: {},
-    groupValue: {},
-    headers: {},
+    emptyColsLength: {
+      type: Number
+    },
+    groupValue: {
+      type: [String, Number]
+    },
+    headers: {
+      type: Array
+    },
     // selectedGroupOption: {},
     tableRows: {
       type: Array
@@ -75,23 +97,21 @@ export default {
      */
     productFilter: {
       type: Object
+    },
+    basePartDetailsUrl: {
+      type: String
+    },
+    hideLowPriority: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({
     sectionHeaderItems: [],
-    sectionDetailItems: []
+    sectionDetailItems: [],
+    hasWarranty: false,
+    hasPronto: false
   }),
-  watch: {
-    tableRows: {
-      handler: function (tableRows) {
-        if (tableRows && tableRows.length > 0) {
-          this.getFilters()
-          this.getRowItems(tableRows)
-        }
-      },
-      immediate: true
-    }
-  },
   methods: {
     convertToFraction (value) {
       let fractionCheck = /(\d+)\/(\d+)$/g
@@ -123,36 +143,8 @@ export default {
       }
       return classList
     },
-    getFilters () {
-      // let filterLabel = null
-      // let filterProperty = null
-      // let filterList = []
-      let productFilter = {
-        filterLabel: null,
-        filterProperty: null,
-        filterList: []
-      }
-      // TODO: Temporary to get a filter value
-      let filterColumn = this.headers.find(header => header.FieldName === 'DIAMETER_A')
-      // let filterColumn = this.headers.find(header => header.IsFilterColumn)
-      if (filterColumn != null) {
-        productFilter.filterLabel = filterColumn.FieldCaption
-        productFilter.filterProperty = filterColumn.FieldName
-        let filterValues = []
-        this.originalTableRows.forEach(row => {
-          filterValues.push(row[filterColumn.FieldName])
-        })
-        productFilter.filterList = [...new Set(filterValues)]
-      } else {
-        productFilter.filterLabel = null
-        productFilter.filterProperty = null
-      }
-      // this.$emit('update:filterLabel', filterLabel)
-      // this.$emit('update:filterProperty', filterProperty)
-      // this.$emit('update:filterList', filterList)
-      this.$emit('update:productFilter', productFilter)
-    },
-    getRowItems (tableRows) {
+    getRowItems () {
+      console.log('getRowItems :: this.tableRows', this.tableRows)
       this.sectionHeaderItems = []
       this.sectionDetailItems = []
 
@@ -160,15 +152,9 @@ export default {
         row.sectionHeaderItems = []
         row.sectionDetailItems = []
         this.headers.forEach(header => {
-          if (header.FieldName.includes('CATALOG_NUMBER')) {
+          if (header.FieldName.includes('CATALOG_NUMBER') || header.FieldName.includes('WHEEL_TYPE') || header.FieldName.includes('BEARING_SIZE')) {
             row.sectionHeaderItems.push({
-              [header.FieldName]: row[header.FieldName],
-              FieldName: header.FieldName,
-              FieldBanner: header.FieldBanner
-            })
-          } else if (header.FieldName.includes('CATALOG_NUMBER') || header.FieldName.includes('WHEEL_TYPE')) {
-            row.sectionHeaderItems.push({
-              [header.FieldName]: row[header.FieldName],
+              [header.FieldName]: row[header.propName],
               FieldName: header.FieldName,
               FieldBanner: header.FieldBanner
             })
@@ -177,14 +163,43 @@ export default {
           }
         console.log('getRowItems :: row.sectionHeaderItems', row.sectionHeaderItems)
         })
+        row.sectionDetailItems.sort(utilities.dynamicSort('-PersistPriority'))
       })
+    },
+    checkVisibility (item) {
+      return !this.hideLowPriority || item.PersistPriority !== 99
+    },
+    getDisplayValue (data) {
+      let amp = '@'
+      // if @ is first value in string, show Pronto star
+      this.hasPronto = data[0] === amp
+      // if @ is last value in string, show Warranty shield/check
+      this.hasWarranty = data.slice(data.length - 1) === amp
+      return data.replaceAll('@', '')
+    },
+    getLinkUrl (value) {
+      let cleanedValue = value.replaceAll('@','')
+      return `${this.basePartDetailsUrl}/PartId/${cleanedValue}`
+    },
+
+  },
+  mounted () {
+    if (this.tableRows && this.tableRows.length > 0) {
+      this.getRowItems()
     }
+
   }
 }
 </script>
 
 <style lang="scss">
 @import "../../assets/variables";
+
+.pronto-shipment-star {
+  margin-left: .25rem;
+  margin-right: .25rem;
+  font-size: 1rem;
+}
 
 .series-item {
   list-style: none;
@@ -193,15 +208,25 @@ export default {
   h3 {
     font-size: 1.25rem;
     line-height: 2rem;
+    a {
+      color: $primaryColor !important;
+      &:hover {
+        color: $primaryColorActive !important;
+      }
+    }
   }
 
   ul {
     padding-left: 0;
+    margin-left: 0;
     li {
+      float: left;
+      width: 50%;
       padding: 0;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      font-size: 1rem;
     }
   }
 

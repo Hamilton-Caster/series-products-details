@@ -22,6 +22,7 @@
               :class="getClass(header)"
               :key="header.GridConfigID"
               :header-text="header.FieldCaption"
+              :is-sort-column="header.IsSortColumn"
               :sort-details="sortDetails"
               :header="header"
               @sort="onSort"/>
@@ -103,14 +104,14 @@ export default {
   }),
   methods: {
     getClass (header) {
-      let classList = ''
+      let classList = header.FieldName
       if (header.FieldBanner != null && header.FieldBanner != '') {
-        classList += `${header.FieldBanner.replace(' ', '-')}`
+        classList += ` ${header.FieldBanner.replace(' ', '-')}`
         if (header.FieldBanner !== this.groupValue) {
           classList += ' hide'
         }
       }
-      if (header.PersistPriority !== 99 || header.FieldHasHyperLink) {
+      if (header.PersistPriority === 99 && !header.FieldHasHyperLink) {
         classList += ' light'
       }
       return classList
@@ -160,6 +161,7 @@ export default {
   font-weight: 400;
   color: rgba(109, 110, 112, 1) !important;
   font-size: 14px;
+  margin-top: 1rem;
 
   tbody tr:nth-child(odd) {
     background: rgba(230, 230, 230, 1);
@@ -171,13 +173,28 @@ export default {
 
   th {
     text-align: center;
+    vertical-align: middle;
+
+    @media screen and (min-width: 2000px) {
+      font-size: 1rem !important;
+    }
+    span {
+      text-align: center;
+    }
   }
 
-  th,
+  th.BEARING_SIZE {
+    text-align: left;
+    padding-left: 3.3rem;
+  }
   td {
     padding: 8px;
-    line-height: 1.42857143;
     vertical-align: top;
+    &.BEARING_SIZE {
+      text-align: left;
+      padding: 0 2rem;
+      //width: 25rem;
+    }
     a,
     a[href]{
       color: $primaryColor;
@@ -186,11 +203,18 @@ export default {
 
   td {
     border: 1px solid rgba(210, 210, 210, 1);
+    line-height: 1.42857143;
   }
 
   .pronto-shipment-star {
     color: $primaryColor;
-    font-size: .7rem;
+    font-size: .9rem;
+    height: .9rem;
+
+
+    &.img {
+      margin-top: -.3rem;
+    }
   }
 
   td {

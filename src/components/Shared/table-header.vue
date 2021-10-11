@@ -1,14 +1,17 @@
 <template>
   <th
-    class="table-header"
-    @click.prevent="toggleSort()">
-    <span
-      v-html="headerText"></span>
-    <button>
+    class="table-header">
+    <button
+      v-if="isSortColumn"
+      @click.prevent="toggleSort()">
+      <span
+        v-html="headerText"></span>
       <font-awesome-icon
         :icon="['fad', sortIcon]" />
     </button>
-
+    <span
+      v-else
+      v-html="headerText"></span>
   </th>
 </template>
 
@@ -33,6 +36,10 @@ export default {
     index: {
       type: Number,
       default: null
+    },
+    isSortColumn: {
+      type: Boolean,
+      default: false
     },
     sortDetails: {
       type: Object,
@@ -89,11 +96,29 @@ export default {
 
 <style lang="scss">
   .table-header {
-    cursor: pointer;
+    align-items: center;
+    flex-direction: row;
+    padding: 8px;
+    vertical-align: top;
+    font-size: 1rem;
+    @media screen and (min-width: 2000px) {
+      font-size: 1rem;
+    }
+    > span {
+      display: inline-block;
+    }
 
     button {
       background-color: transparent;
-      color: #000;
+      cursor: pointer;
+      color: #6d6e70;
+      font-weight: 300;
+      font-family: roboto,sans-serif!important;
+
+      .svg-inline--fa {
+        display: inline-block;
+        margin: 0 1rem;
+      }
     }
   }
 </style>

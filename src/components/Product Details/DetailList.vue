@@ -17,11 +17,11 @@
               :href="getLinkUrl(headerItem[headerItem.FieldName])">
               <span
                 v-html="getDisplayValue(headerItem[headerItem.FieldName])"></span>
-              <font-awesome-icon
+              <img
                 v-if="hasPronto"
                 title="24-48 Hour PRONTO® Shipment."
-                class="pronto-shipment-star"
-                :icon="['fas', 'star']" />
+                src="/portals/0/Support/images/star.png"
+                class="pronto-shipment-star img">
               <font-awesome-icon
                 v-if="hasWarranty"
                 title="Hamilton’s Three Year Product Warranty."
@@ -54,7 +54,7 @@
           :key="index"
           v-show="checkVisibility(detailItem)"
           :class="getClass(detailItem)">
-          <span class="caption">{{ detailItem.FieldCaption }}:</span>
+          <span class="caption" v-html="`${detailItem.FieldCaption}:`"></span>
           <table-cell-content
             :base-part-details-url="basePartDetailsUrl"
             :header="detailItem"
@@ -144,7 +144,6 @@ export default {
       return classList
     },
     getRowItems () {
-      console.log('getRowItems :: this.tableRows', this.tableRows)
       this.sectionHeaderItems = []
       this.sectionDetailItems = []
 
@@ -161,7 +160,6 @@ export default {
           } else {
             row.sectionDetailItems.push(header)
           }
-        console.log('getRowItems :: row.sectionHeaderItems', row.sectionHeaderItems)
         })
         row.sectionDetailItems.sort(utilities.dynamicSort('-PersistPriority'))
       })
@@ -198,7 +196,13 @@ export default {
 .pronto-shipment-star {
   margin-left: .25rem;
   margin-right: .25rem;
-  font-size: 1rem;
+  font-size: .9rem;
+  height: .9rem;
+
+
+  &.img {
+    margin-top: -.3rem;
+  }
 }
 
 .series-item {

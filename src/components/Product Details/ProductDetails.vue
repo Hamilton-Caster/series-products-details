@@ -1,22 +1,25 @@
 <template>
-  <div class="detail-table-wrap clear">
+  <md-empty-state
+    v-if="error != null">
+    <font-awesome-icon class="md-empty-state-icon" :icon="['fad', 'sad-tear']" />
+    <strong class="md-empty-state-label">An error has occurred</strong>
+    <p class="md-empty-state-description">
+      <span>{{ error }}</span><br>Please try again later
+    </p>
+    <md-button
+      @click="goHome"
+      class="md-raised">
+      Go Hamilton Home Page
+    </md-button>
+  </md-empty-state>
+  <div
+    v-else
+    class="detail-table-wrap clear">
     <spinner class="spinner" v-show="showSpinner" />
     <div v-show="!showSpinner">
       <div class="table-meta-header">
         <div class="info">
-          <p class="toggle-button-label">
-            Select 'Swivel Caster' or 'Rigid Caster' then click on desired model number to see more details.
-          </p>
-          <div class="pronto-shipment">
-            <span>
-              <font-awesome-icon
-                class="pronto-shipment-star"
-                :icon="['fas', 'star']" /> = 24-48 Hour PRONTO® Shipment.</span>
-            <a href="/Warranty">
-              <font-awesome-icon
-                class="pronto-shipment-star"
-                :icon="['fas', 'shield-check']" /> = Hamilton’s Three Year Product Warranty.</a>
-          </div>
+          <h2>Available {{ headingText }}</h2>
         </div>
         <div class="controls clearfix">
           <table-tabs
@@ -24,41 +27,19 @@
             :tabs="typeOptions"
             :selected-tab="groupValue"
             @change="onTypeChange" />
-          <div class="filter" v-if="productFilter.filterList && productFilter.filterList.length > 0">
-            <span>Filter by: </span>
-            <md-field class="table-filter">
-              <label
-                for="tableFilter"
-                v-html="productFilter.filterLabel"></label>
-              <md-select
-                md-dense
-                v-model="selectedFilter"
-                @md-selected="onFilterChange"
-                name="tableFilter">
-                <md-option value="">
-                  &nbsp;<span v-html="`Select ${productFilter.filterLabel}`"></span>
-                </md-option>
-                <md-option
-                  v-for="option in productFilter.filterList"
-                  :key="option"
-                  :value="option">
-                  {{ option }}
-                </md-option>
-              </md-select>
-            </md-field>
-            <!--          <label>-->
-            <!--            <span-->
-            <!--              v-html="productFilter.filterLabel"></span>:-->
-            <!--            <select-->
-            <!--              v-model="selectedFilter"-->
-            <!--              @change="onFilterChange">-->
-            <!--              <option :value="null">Filter</option>-->
-            <!--              <option-->
-            <!--                v-for="option in productFilter.filterList"-->
-            <!--                :key="option"-->
-            <!--                :value="option">{{ option }}</option>-->
-            <!--            </select>-->
-            <!--          </label>-->
+        </div>
+        <div class="tools">
+          <div class="pronto-shipment">
+              <span>
+                <img
+                  title="24-48 Hour PRONTO® Shipment."
+                  src="/portals/0/Support/images/star.png"
+                  class="pronto-shipment-star img">
+                = 24-48 Hour PRONTO® Shipment.</span>
+            <a href="/Warranty">
+              <font-awesome-icon
+                class="pronto-shipment-star"
+                :icon="['fas', 'shield-check']" /> = Hamilton’s Three Year Product Warranty.</a>
           </div>
         </div>
       </div>
@@ -150,27 +131,29 @@ export default {
       headers: [],
       hideLowPriority: true,
       isMobile: true,
-      tableRows: [],
-      originalTableRows: [],
-      typeOptions: [],
-      groupValue: '',
       emptyColsLength: 0,
-      selectedGroupOption: {},
-      filterList: [],
       filterLabel: null,
-      selectedFilter: null,
-      showSpinner: true,
-      sortDetails: {
-        direction: null,
-        sortIndex: null
-      },
+      filterList: [],
       filterProperty: null,
+      groupValue: '',
+      headingText: null,
       productFilter: {
         filterLabel: null,
         filterProperty: null,
         filterList: []
       },
-      wheelTypeInfo: null
+      originalTableRows: [],
+      selectedFilter: null,
+      selectedGroupOption: {},
+      showSpinner: true,
+      sortDetails: {
+        direction: null,
+        sortIndex: null
+      },
+      tableRows: [],
+      typeOptions: [],
+      wheelTypeInfo: null,
+      error: null
     }
   },
   computed: {
@@ -179,16 +162,13 @@ export default {
     sortDetails: {
       handler: function ({direction, sortIndex, propName}) {
         let tableRows = JSON.parse(JSON.stringify(this.tableRows))
-        console.log('handler :: direction, sortIndex, propName', direction, sortIndex, propName)
         if (direction === null) {
           tableRows = this.originalTableRows
         } else {
-          console.log('handler :: ', propName)
           let sortParam = direction === SortDirection.Descending ? propName : `-${propName}`
-          tableRows.sort(utilities.dynamicSort(sortParam, 1, true))
+          tableRows.sort(utilities.dynamicSort(sortParam, 1, false, true))
 
         }
-        console.log('handler :: this.selectedFilter', this.selectedFilter)
         if (this.selectedFilter !== '' && this.selectedFilter != null) {
           tableRows = tableRows.filter(row => row[this.productFilter.filterProperty] === this.selectedFilter)
         }
@@ -204,19 +184,22 @@ export default {
         this.gridDetails = res
         this.basePartDetailsUrl = res.BasePartDetailsURL
         this.wheelTypeInfo = res.WheelTypeInfo
-        this.buildHeaders(res.GridHeaderInfo)
+        this.headingText = res.WheelTypeInfo.length > 1 ? 'Casters' : 'Wheels'
+        let bearingType = res.BearingType || null
+        this.buildHeaders(res.GridHeaderInfo, bearingType)
         this.buildRows(res.GridPartsInfo)
         this.showSpinner = false
       })
+      .catch(err => this.error = err)
     },
-    buildHeaders (gridHeaderInfo) {
+    buildHeaders (gridHeaderInfo, bearingTypes) {
       gridHeaderInfo.forEach(header => {
         header.propName = `${header.FieldIndexPosition}_${header.FieldName}`
       })
       this.headers = gridHeaderInfo.sort((a, b) => a.FieldIndexPosition - b.FieldIndexPosition)
-      this.buildOptionsList()
+      this.buildOptionsList(bearingTypes)
     },
-    buildOptionsList () {
+    buildOptionsList (bearingTypes) {
       let optionsList = []
       this.headers.forEach(header => {
         if (header.FieldBanner !== '') {
@@ -230,7 +213,8 @@ export default {
         objectsList.push({
           name: option,
           value: option,
-          cols: this.getColsLength(option)
+          cols: this.getColsLength(option),
+          tabData: bearingTypes != null ? bearingTypes.find(type => type.BearingType === option) : null
         })
       })
       this.groupValue = objectsList.length > 0 ? objectsList[0].value : ''
@@ -283,7 +267,6 @@ export default {
         this.tableRows.sort(utilities.dynamicSort(sortParam, 1, true))
       }
 
-      console.log('onFilterChange :: $event', filterValue)
     },
     getFilters () {
       this.productFilter = []
@@ -314,6 +297,9 @@ export default {
       // this.$emit('update:filterProperty', filterProperty)
       // this.$emit('update:filterList', filterList)
       this.productFilter = productFilter
+    },
+    goHome () {
+      window.location.href = '/'
     }
   },
   created () {
@@ -333,17 +319,16 @@ export default {
 
     > div {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       @media screen and (min-width: $large)  {
         flex-direction: row;
       }
       &.info {
-        justify-content: space-between;
-        flex-direction: column;
         padding-top: 1rem;
         @media screen and (min-width: $large)  {
           padding-top: unset;
           flex-direction: row;
+          justify-content: space-between;
         }
       }
       &.controls {
@@ -351,93 +336,125 @@ export default {
         align-items: center;
         justify-content: space-between;
         border-bottom: 2px solid $borderColor;
-        margin-top: 1.5rem;
 
         .button-group {
           margin-right: 3rem;
           float: left;
         }
-        .filter {
-          float: right;
-          margin-left: 4rem;
-          display: flex;
-          align-items: center;
-          margin-bottom: .6rem;
-          > span {
-            display: block;
-            padding-right: 1rem;
-            white-space: nowrap;
+      }
+      .toggle-button-label {
+      }
+    }
+    .tools {
+      display: flex;
+      flex-direction: column;
+      padding-top: 1.4rem;
+      padding-bottom: 1.4rem;
+      margin-top: .5rem;
+
+      @media screen and (min-width: $large)  {
+        margin-top: 1rem;
+        justify-content: flex-end;
+        padding-top: unset;
+        padding-bottom: unset;
+        flex-direction: row;
+      }
+
+      .filter {
+        float: right;
+        display: flex;
+        align-items: center;
+        margin-bottom: .6rem;
+        margin-top: 1rem;
+        @media screen and (min-width: $large)  {
+          margin-top: unset;
+          margin-left: 2rem;
+        }
+
+        > span {
+          display: inline-block;
+          padding-right: 1rem;
+          white-space: nowrap;
+        }
+
+        .md-field {
+          width: calc(100% - 3rem);
+          @media screen and (min-width: $medium) {
+            width: calc(100% - 4rem);
           }
+          border: 1px solid $borderColor;
+          background-color: $white;
+          padding: 0;
+          margin: 0;
+          min-height: 3rem;
+          max-width: 15rem;
 
-          .md-field {
-            width: calc(100% - 3rem);
-            @media screen and (min-width: $medium)  {
-              width: calc(100% - 4rem);
-            }
+          .md-menu.md-select {
             border: 1px solid $borderColor;
-            background-color: $white;
-            padding: 0;
-            margin: 0;
-            min-height: 3rem;
-            max-width: 15rem;
 
-            label {
-              left: 1rem;
-              top: 0.8125rem;
-            }
-            &.md-focused label,
-            &.md-has-value label {
-              top: .015rem;
-            }
-
-            .md-icon {
-              height: 1.5rem;
-            }
-
-            input,
-            textarea {
-              margin-bottom: .3rem;
-              padding: 1.5rem 1rem 0.6rem
-            }
-
-            &.md-theme-default:before,
-            &.md-theme-default:after{
-              display: none;
-            }
-
-            > .md-checkbox {
-              padding: 12px 16px 0px 0;
-              margin: unset;
-              .md-checkbox-container {
-                left: 1rem;
-                &:before {
-                  height: 2rem;
-                }
-                .md-ripple {
-                  height: 40.8px !important;
-                }
-              }
-              .md-checkbox-label {
-                top: unset;
-              }
-            }
           }
 
           label {
-            span {
-              br {
+            left: 1rem;
+            top: 0.8125rem;
+          }
+
+          &.md-focused label,
+          &.md-has-value label {
+            top: .015rem;
+          }
+
+          .md-icon {
+            height: 1.5rem;
+          }
+
+          input,
+          textarea {
+            margin-bottom: .3rem;
+            padding: 1.5rem 1rem 0.6rem
+          }
+
+          &.md-theme-default:before,
+          &.md-theme-default:after {
+            display: none;
+          }
+
+          > .md-checkbox {
+            padding: 12px 16px 0px 0;
+            margin: unset;
+
+            .md-checkbox-container {
+              left: 1rem;
+
+              &:before {
+                height: 2rem;
+              }
+
+              .md-ripple {
+                height: 40.8px !important;
+              }
+            }
+
+            .md-checkbox-label {
+              top: unset;
+            }
+          }
+        }
+
+        label {
+          span {
+            br {
+              content: ' ';
+
+              &:after {
                 content: ' ';
-                &:after {
-                  content: ' ';
-                }
               }
             }
           }
         }
       }
-      .toggle-button-label {
-      }
     }
+
   }
 
   .pronto-shipment {
@@ -446,6 +463,11 @@ export default {
     display: flex;
     flex-direction: column;
     min-width: 300px;
+    align-self: end;
+    padding-left: 2rem;
+    @media screen and (min-width: $large) {
+      flex-direction: row;
+    }
   }
 
   .detail-table-wrap {

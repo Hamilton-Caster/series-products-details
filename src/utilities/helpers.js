@@ -2,7 +2,7 @@ const getKeyByValue = function (obj, value) {
   return Object.keys(obj).find(key => obj[key] === value)
 }
 
-function dynamicSort(property, sortOrder = 1, isCurrency) {
+function dynamicSort(property, sortOrder = 1, isCurrency, isNumber) {
   if(property[0] === "-") {
     sortOrder = -1
     property = property.substr(1)
@@ -10,8 +10,8 @@ function dynamicSort(property, sortOrder = 1, isCurrency) {
 
   return function (a,b) {
 
-    let valueA = a[property]
-    let valueB = b[property]
+    let valueA = isNumber ? parseInt(a[property]) : a[property]
+    let valueB = isNumber ? parseInt(b[property]) : b[property]
 
     // convert to integers if money
     if (isCurrency && a[property][0] === '$') {

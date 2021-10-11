@@ -3,19 +3,41 @@
     <md-tabs
       :md-active-tab="selectedTab"
       @md-changed="onTabChanged">
+      <template
+        slot="md-tab"
+        slot-scope="{ tab }">
+        <div
+          class="thumb-tab"
+          v-if="tab.data.tabData != null">
+          <div
+            class="img-wrap"
+            v-if="tab.data.tabData.ImageURL">
+            <img
+              class="thumb-img"
+              :src="tab.data.tabData.ImageURL"
+              :alt="getTabTitle(tab)">
+          </div>
+          <div class="thumb-text">
+            <h3 class="thumb-tab-heading" v-html="getTabTitle(tab)"></h3>
+            <p v-if="tab.data.tabData.Description" v-html="tab.data.tabData.Description"></p>
+          </div>
+        </div>
+        <div v-else class="simple-tab-title">
+          {{ getTabTitle(tab) }}
+        </div>
+      </template>
       <md-tab
         v-for="tab in tabs"
         :key="tab.value"
         :id="tab.value"
         :md-label="tab.name"
+        :md-template-data="{ tabData: tab.tabData}"
         :md-ripple="false" />
     </md-tabs>
   </div>
 </template>
 
 <script>
-  import { ProductTypes } from '../enums'
-
   export default {
     name: 'table-tabs',
     props: {
@@ -40,6 +62,9 @@
       },
       onReset () {
         this.$emit('reset-filter')
+      },
+      getTabTitle (tab) {
+        return tab.data.tabData && tab.data.tabData.Title ? tab.data.tabData.Title : tab.label
       }
     },
     created () {
@@ -64,11 +89,10 @@
     $tabFontSize:         var(--tab-font-size);
 
     $tabFontColor:        $black;
-    $tab_normalOpacity:   .43;
-    $tab_hoverOpacity:    .83;
+    $tab_normalOpacity:   .83;
+    $tab_hoverOpacity:    .93;
     $tab_selectedOpacity: 1;
 
-    margin-bottom: 1.5rem;
     position: relative;
     float: left;
     @media screen and (min-width: $small) {
@@ -83,7 +107,7 @@
           background-color: transparent;
           //border-bottom: 1px solid $borderColor;
           //padding-bottom: .3rem;
-          @media screen and (max-width: $medium)  {
+          @media screen and (max-width: $large)  {
             flex-direction: column;
             .md-ripple {
               justify-content: left;
@@ -99,6 +123,51 @@
             transition: opacity .2s;
             line-height: 2rem;
             max-width: 24rem;
+            height: auto;
+            min-height: 4rem;
+
+            .md-ripple {
+              align-items: flex-start;
+              @media screen and (min-width: $large) and (max-width: $x-large) {
+                padding: 0 .5rem;
+              }
+            }
+
+            .thumb-tab {
+              display: flex;
+              flex-direction: row;
+              align-items: start;
+
+              .img-wrap {
+                @media screen and (min-width: $large) and (max-width: $xx-large) {
+                  display: none;
+                }
+                width: 6.25rem;
+                height: 6.25rem;
+
+                .thumb-img {
+                  max-width: 6.25rem;
+                  max-height: 6.25rem;
+                }
+              }
+              .thumb-text {
+                margin-left: 1rem;
+                text-align: left;
+
+                .thumb-tab-heading {
+                  font-size: 1.375rem;
+                }
+                p {
+                  font-size: 0.875rem;
+                  line-height: 1rem;
+                  white-space: normal;
+                  margin-bottom: 1rem;
+                  @media screen and (min-width: $large) and (max-width: $x-large) {
+                    display: none;
+                  }
+                }
+              }
+            }
 
             @media screen and (max-width: $medium)  {
               text-align: left;
@@ -110,8 +179,11 @@
             }
 
             &.md-active {
-              color: $primaryColor;
-              opacity: $tab_selectedOpacity;
+              &,
+              .thumb-tab-heading {
+                color: $primaryColor;
+                opacity: $tab_selectedOpacity;
+              }
 
               &:hover {
                 opacity: $tab_hoverOpacity;
@@ -135,6 +207,10 @@
       }
     }
 
+  }
+  .simple-tab-title {
+    color: rgba(109,110,112,1);
+    font-size: 1.375rem;
   }
 
 </style>

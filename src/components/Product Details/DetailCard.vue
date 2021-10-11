@@ -54,7 +54,7 @@
               v-if="!header.isHeader"
               :key="header.GridConfigID"
               :class="getClass(header)">
-              <span class="caption">{{ header.FieldCaption }}:</span>
+              <span class="caption" v-html="`${header.FieldCaption}:`"></span>
               <table-cell-content
                 :base-part-details-url="basePartDetailsUrl"
                 :header="header"
@@ -124,8 +124,7 @@ export default {
           item.isHeader = true
         }
       })
-      detailItems.sort(utilities.dynamicSort('PersistPriority'))
-      console.log('headerList :: detailItems', detailItems)
+      detailItems.sort(utilities.dynamicSort('-PersistPriority'))
       return detailItems
     }
   },
@@ -166,14 +165,21 @@ export default {
 .pronto-shipment-star {
   margin-left: .25rem;
   margin-right: .25rem;
-  font-size: 1rem;
+  font-size: .9rem;
+  height: .9rem;
+
+  &.img {
+    margin-top: -.3rem;
+  }
 }
 
 .series-item {
   list-style: none;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid $lightGrey;
+  margin-bottom: 1rem;
 
   h3 {
     font-size: 1.25rem;
@@ -225,7 +231,7 @@ export default {
       margin: 0 .3rem;
       padding: 0 .3rem;
       color: $primaryColor !important;
-      border-bottom: 1px solid $primaryColor;
+      //border-bottom: 1px solid $primaryColor;
       &:hover {
         color: $primaryColorActive !important;
       }

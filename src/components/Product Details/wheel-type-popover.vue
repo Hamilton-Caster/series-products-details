@@ -46,9 +46,11 @@ export default {
   .series-table td a[href] {
     &.popover-link {
       color: rgba(109, 110, 112, 1);
+      border-bottom: 1px dotted;
       &:hover {
         color: $primaryColor;
-        text-decoration: underline;
+        text-decoration: none;
+        border-bottom-color: $primaryColor;
       }
     }
   }

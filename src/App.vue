@@ -1,6 +1,6 @@
 <template>
   <product-details
-    v-if="moduleReady && commodityId !== null"
+    v-if="moduleReady && commodityId !== null && detailLink !== ''"
     :commodity-id="commodityId"
     :module-id="moduleId"
     :is-modal="isModal"
@@ -44,7 +44,6 @@ export default {
       this.moduleReady = true
       this.commodityId = this.$el.parentNode.dataset.commodityId
       this.detailLink = this.$el.parentNode.dataset.detailLink
-      console.log('mounted :: this.$el.parentNode.dataset.commodityId', this.$el.parentNode.dataset.commodityId)
 
       this.$el.parentNode.classList.add('product-details-module-wrap')
 
@@ -55,6 +54,17 @@ export default {
 
 <style lang="scss">
   @import "assets/variables";
+
+  .breadcrumb {
+    li {
+      a:not(.md-button) {
+        color: $white;
+        &:hover {
+          color: rgba($white, .8);
+        }
+      }
+    }
+  }
 
   // Override md-theme bg color
   html {

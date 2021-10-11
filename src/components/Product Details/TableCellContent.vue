@@ -232,4 +232,14 @@ export default {
     }
   }
 
+  .series-table {
+    a.bearing-links {
+      img {
+        &.pronto-shipment-star {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
 </style>

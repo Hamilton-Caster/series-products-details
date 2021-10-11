@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dotnetnuke  version="3.0" type="Module">
+	<folders>
+		<folder>
+			<name>CatalogGrid</name>
+			<description>Display the contents of the Hamilton Caster catalog grid</description>
+			<version>01.00.00</version>
+			<modules>
+				<module>
+					<friendlyname>CatalogGrid</friendlyname>
+					<controls>
+						<control>
+							<title>CatalogGrid</title>
+							<src>View.html</src>
+							<type>View</type>
+						</control>
+						<control>
+							<key>Edit</key>
+							<title>Edit CatalogGrid</title>
+							<src>EditCatalogGrid.ascx</src>
+							<type>Edit</type>
+						</control>
+					</controls>
+				</module>
+			</modules>
+			<files>
+				<file>
+					<name>View.html</name>
+				</file>
+				<file>
+					<name>EditCatalogGrid.ascx</name>
+				</file>
+				<file>
+					<name>Webacuity.CatalogGrid.dll</name>
+				</file>
+			</files>
+		</folder>
+	</folders>
+</dotnetnuke>
+

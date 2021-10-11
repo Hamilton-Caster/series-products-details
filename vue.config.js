@@ -1,7 +1,7 @@
 const { join } = require('path')
 
 module.exports = {
-  outputDir: '../Website/DesktopModules/AcuitiSolutions/ProductConfigurator',
+  outputDir: '../Website/DesktopModules/\\CatalogGrid',
   lintOnSave: true,
   filenameHashing: false,
   runtimeCompiler: true

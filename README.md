@@ -1,4 +1,4 @@
-# product-configurator
+# series-product-details
 
 ## Project setup
 ```

@@ -1,10 +1,10 @@
 {
-  "name": "product-configurator",
+  "name": "series-product-details",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service -mode production build",
     "lint": "vue-cli-service lint",
     "build-dev": "vue-cli-service build --mode development --no-clean"
   },

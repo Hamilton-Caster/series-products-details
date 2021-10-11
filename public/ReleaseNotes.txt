@@ -1,4 +1,4 @@
-﻿<h3>Acuitisolutions.Modules.ProductConfigurator</h3>
+﻿<h3>Acuitisolutions.Modules.CatalogGrid</h3>
 <p class="Contributor">
 	AcuitiSolutions, LLC. <br />
 	<a href="mailto:support@acuitisolutions.com">support@acuitisolutions.com</a><br />
@@ -6,7 +6,7 @@
 </p>
 <hr/>
 <div class="License">
-	<h3>HAC Product Configurator</h3>
+	<h3>Acuiti Solutions Catalog Grid Module</h3>
 	<p class="Owner">
 		<b>Version CHANGEME</b><br /><br />
 	</p>

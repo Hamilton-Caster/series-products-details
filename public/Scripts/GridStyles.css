@@ -1,0 +1,138 @@
+﻿#products {width:90%;}
+ .tablesaw {border-bottom: 1px solid rgba(210,210,210,1);}
+ .tablesaw a { color: rgba(215,32,39,1); }
+ .tablesaw a:hover { color: rgba(166,18,24,1); cursor: pointer; text-decoration:underline; }
+.tablesaw-advance:before { content: 'Toggle Content'; }
+.tablesaw-bar { clear:none; float:right;}
+.tablesaw-bar .tablesaw-advance a.tablesaw-nav-btn.up:before { left: 5px; }
+.tablesaw-bar input[type=checkbox] { margin: 0 0 4px 0; }
+.tablesaw-bar.tablesaw-mode-columntoggle:nth-of-type(3) { display: none!important; }
+.tablesaw-bar.tablesaw-mode-columntoggle.show { display: block!important; }
+.tablesaw tr:first-child th { text-align: center; }
+.tablesaw tbody tr { border: 0; }
+.tablesaw tbody tr td { text-align: center; font-family:roboto,sans-serif !important; font-style: normal !important; font-weight: 400; color: rgba(109,110,112,1) !important; font-size:14px; border: 1px solid rgba(210,210,210,1);}
+.tablesaw .light { background: rgba(249,249,249,1); border: 1px solid rgba(210,210,210,1); border-top: 0px;}
+.tablesaw tbody tr:nth-child(odd) { background: rgba(230,230,230,1); }
+.fa-circle { color: rgba(100,126,119,1); }
+.pronto:before { content: '*'; color: rgba(215,32,39,1); }
+td.border { border-left: 1px solid rgba(210,210,210,1); }
+
+/*-- TABLE SWITCH TOGGLE STYLING --*/
+.switch .slide-button, .toggle p span { display: none; }
+
+.toggle { position: relative; padding: 0;	margin: 0; }
+.toggle label { position: relative; z-index: 3; display: block; width: 100%; }
+.toggle input { position: absolute; opacity: 0; z-index: 5; }
+
+.toggle p {
+position: relative;
+width: 100%;
+margin: 0px;
+text-align: left;
+font-size: .8em;
+}
+
+.toggle p span {
+position: relative;
+top: 0;
+z-index: 5;
+display: block;
+margin-right:-1px;
+text-align: center;
+white-space:nowrap;
+display:inline-block;
+float:left;
+padding-left:5px;
+padding-right:10px;
+padding-top:7px;
+padding-bottom:7px;
+font-size:.8em;
+font-family: "Roboto-condensed", sans-serif;
+
+}
+.toggle p span.active {
+background-color: rgba(166,18,24,1);
+display: block;
+-webkit-transition: all 0.5s ease-out;
+-moz-transition: all 0.5s ease-out;
+-ms-transition: all 0.5s ease-out;
+-o-transition: all 0.5s ease-out;
+transition: all 0.5s ease-out;
+-webkit-transition-timing-function: linear; /* Safari and Chrome */
+transition-timing-function: linear;
+}
+/*.toggle p span:last-child {left: 50%;}*/
+
+.toggle .slide-button {
+position: absolute;
+right: 0;
+top: 0;
+z-index: 4;
+display: block;
+width: 100%;
+height: 100%;
+padding: 0;
+}
+
+
+.toggle { display: block; height: 30px; }
+.toggle * {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+-ms-box-sizing: border-box;
+-o-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+.toggle .slide-button{
+display: block;
+-webkit-transition: all 0.3s ease-out;
+-moz-transition: all 0.3s ease-out;
+-ms-transition: all 0.3s ease-out;
+-o-transition: all 0.3s ease-out;
+transition: all 0.3s ease-out;
+}
+
+.toggle label, .toggle p { font-size: 18px; line-height: 26px; vertical-align: middle; }
+.toggle input:checked ~ .slide-button { right: 50%; }
+.toggle input:focus ~ .slide-button {
+}
+
+/* Bugfix for older Webkit, including mobile Webkit.
+* http://css-tricks.com/webkit-sibling-bug/
+*/
+
+.switch, .toggle { -webkit-animation: bugfix infinite 1s; }
+@-webkit-keyframes bugfix { from { position: relative; } to { position: relative; } }
+.switch { background-color: rgba(166,18,24,1); color: rgba(255,255,255,1); font-weight: 700; text-align: center;	border-radius: 1px; padding: 2px 2px; }
+.switch input:checked + label { color: #333; }	
+.switch .slide-button { border: 0; background-color: rgba(215,32,39,1); border-radius: 1px; }
+.switch p { color: #333; text-shadow: none; }
+.switch span { color: rgba(255,255,255,1); }
+
+
+/*-- Type Select Styling --*/
+.filter-group__item { display: inline-block; margin-right: 1em; }
+.filter-group__label { display: inline-block; margin:15px 0; }
+
+.hide { display: none; }
+                    
+#other img { margin-bottom: 0; }
+#other .pull-left { font-family: "Roboto-condensed", sans-serif; }
+#other .pull-right { font-size: 14px; line-height: 17px; margin-top: 5px; }
+
+ #products h2, .toggle-switch, span-diameter { float: none; }
+        .toggle { height: 40px; }
+        .switch {  padding: 0px 0px; }
+        .toggle-switch { margin; 0; float:left;}
+        span.filter { margin: 0px 0px 0 20px; height:40px; display:block; position:relative;padding-top:10px; float:left;}
+        
+.Grid_BearingSize{
+padding: 0 10px;
+}
+.Grid_BearingSize>img{
+width:44px !important;
+}
+.GridHeader_Options
+{
+}

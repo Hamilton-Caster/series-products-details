@@ -1,0 +1,316 @@
+﻿@font-face {
+    font-family: HamiltonFont;
+    src: url(f5e7241f-0645-4a94-bdd1-7f4a6b06b9a3.woff);
+}
+
+.ACS_TableWheels .Grid_WheelTypesCaption
+{
+	background-color:red !important;
+}
+
+.divWheelTypeBox, .div3YrWarrantyBox
+{
+	display:none;
+	padding:3px;
+	font:helvetica;
+	font-size:12px;
+	
+	white-space: pre; /* CSS 2.0 */
+white-space: pre-wrap; /* CSS 2.1 */
+white-space: pre-line; /* CSS 3.0 */
+white-space: -pre-wrap; /* Opera 4-6 */
+white-space: -o-pre-wrap; /* Opera 7 */
+white-space: -moz-pre-wrap; /* Mozilla */
+word-wrap: break-word; /* IE 5+ */
+
+}
+.Grid_FixedColumn
+{
+display:block;
+float:left;
+position:relative;
+min-width:20%;
+margin-right:5px;
+margin-top:9px;
+}
+.Grid_FixedColumnBanner
+{
+position:relative;
+width:96%;
+display:block;
+clear:both;
+height:49px;
+line-height:37px;
+font-family: hamiltonfont;
+font-size: 25px !important;
+}
+.Grid_Tabs
+{
+display:block;
+float:left;
+position:relative;
+min-width:59%;
+padding-top:5px;
+}
+
+.GridTable_Fixed, .GridTable_Tabs
+{
+width:100%;
+border-spacing:0;
+border-collapse:separate;
+page-break-inside:avoid;
+
+}
+
+.GridTable_Fixed{
+border-left: 1px solid #000;
+border-right: 1px solid #000;
+}
+
+.GridTable_Fixed  td , .GridTable_Tabs td
+{
+padding: 0 !important;
+margin:0 !important;
+
+}
+
+.Grid_Tabs .ui-tabs {
+
+    padding: 0em;
+    zoom: 1;
+    width:100%;
+} /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+
+.Grid_TabColumns ul
+{
+margin-left:0px !important;
+margin-bottom:0px !important;
+}
+
+.Grid_TabColumns li
+{
+    list-style: none;
+    float: left;
+    position: relative;
+    border-bottom: 0 !important;
+    white-space: nowrap;
+	margin-left:0px;
+	margin-right:2px;
+	padding:9px;
+	text-align:center;
+display:inline;
+}
+.Grid_TabColumns li:nth-child(2)
+{
+right:-2px;
+float:right;
+}
+.Grid_TabContainer
+{
+min-width: 447px;
+}
+
+.Grid_TabContainer .ui-tabs-panel { position: relative; border: 5px solid #C71B2D; clear:both; }
+.Grid_TabContainer .ui-tabs-hide { display: none !important }
+.ui-state-default a, .ui-state-default a:link, .ui-state-defdault a:visisted {
+color: #000 !important;
+
+}
+.Grid_PreTitleSection
+{
+font-family: Hamiltonfont;
+font-size: 25px;
+font-weight: normal;
+margin-bottom: -10px;
+}
+
+.Grid_PreLegendSection
+{
+margin-top: -14px;
+margin-bottom: 0px;
+}
+
+.Grid_TabColumns .ui-state-default
+{
+ background: #E7E7E7;
+ border:0;
+ top:5px;
+-moz-border-radius-topleft: 0px;
+-moz-border-radius-topright: 0px;
+-moz-border-radius-bottomright: 0px;
+-moz-border-radius-bottomleft: 0px;
+border-top-left-radius: 0px;
+border-top-right-radius: 0px;
+border-bottom-right-radius: 0px;
+border-bottom-left-radius: 0px;
+
+}
+.Grid_TabColumns .ui-state-default a, .ui-state-hover a, .ui-state-hover a:hover
+{
+ color: #EA112C !important;
+ font-weight:	inheirit;
+ font-family: HamiltonFont, Helvetica;
+ font-size:25px;
+}
+.Grid_TabColumns .ui-tabs-active a, .ui-tabs-active a:hover
+{
+color: #000 !important;
+
+}
+.Grid_TabColumns .ui-tabs-active
+{
+	 background: #FFF;
+	 border:0;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	top:5px;
+	padding-right:11px;
+	border-left: 5px solid #C71B2D;
+	border-right: 5px solid #C71B2D;
+	border-top: 5px solid #C71B2D;
+	z-index:99;
+}
+
+
+.Grid_TabColumns .ui-tabs-anchor
+{
+display:block;
+padding-left:20px;
+padding-right:20px;
+}
+.Grid_HeaderNormal
+{
+text-align: center;
+padding-left: 15px;
+}
+.Grid_TabColumnHidden
+{
+	visibility:hidden !important;
+	padding: 2px 3px;
+}
+.Grid_HeaderHidden
+{
+visibility:hidden !important;
+}
+
+.Grid_Column3YrWarranty
+{
+	border-radius: 50%;
+	width: 6px;
+	height: 6px; 
+	background:#1CB1D6;
+	display:inline-block;
+	text-align:center !important;
+	padding: 0 !important;
+}
+
+.Grid_Field
+{
+padding: 5px 5px 0px 15px !important;
+}
+.Grid_TblBearingSizes
+{
+width:40%;
+padding: 0 !important;
+
+
+}
+.WheelToolTip
+{
+padding: 4px 0px 4px 10px;
+}
+.Grid_BearingSize
+{
+width:25%;
+text-align:center;
+}
+.Grid_EmptyBearing
+{
+}
+.CATALOG_NUMBER
+{
+
+}
+.UNIT_PRICE
+{
+margin-right:8px !important;
+}
+
+.Grid_PreTitleSection
+{
+display:block;
+float:left;
+position:relative;
+padding-left: 3px;
+white-space:nowrap;
+text-align:left;
+}
+
+#ACS_TableWheels
+{
+padding-left: 1px;
+padding-bottom: 12px;
+}
+
+.Grid_PreLegendSection
+{
+display:block;
+float:right;
+position:relative;
+clear:both;
+width:90%;
+text-align:right;
+}
+.Grid_PreLegendSection span
+{
+padding-right:5px;
+}
+.grid_hyperlink{
+padding-left: 3px;
+}
+.CG_Pronto {
+color:black;
+font-weight: normal;
+}
+#mf446
+{
+width:27% !important;
+}
+.Grid_HeaderNormal_DIAMETER_A{ width: 20px;}
+.Grid_HeaderNormal_WHEEL_FACE{ width: 20px;}
+.Grid_HeaderNormal_WEIGHT{ width: 20px;}
+.Grid_HeaderNormal_HUB_LENGTH{ width: 20px;}
+.Grid_HeaderNormal_LOAD_CAPACITY{ width: 20px;}
+.Grid_HeaderNormal_CATALOG_NUMBER{ width: 20px;}
+.Grid_HeaderNormal_BEARING_SIZE{ text-align: left !important;}
+
+.Grid_TabColumns_57 .ui-tabs-anchor, .Grid_TabColumns_64 .ui-tabs-anchor, .Grid_TabColumns_201 .ui-tabs-anchor, .Grid_TabColumns_55 .ui-tabs-anchor, .Grid_TabColumns_49 .ui-tabs-anchor, .Grid_TabColumns_54 .ui-tabs-anchor, .Grid_TabColumns_1045 .ui-tabs-anchor, .Grid_TabColumns_65 .ui-tabs-anchor
+{
+font-size: 17px !important;
+}
+.tooltip-inner img 
+{
+float:left;
+margin-right:10px;
+clear:both;
+}
+.tooltip-inner p.grid_wheel_decription{
+	color: black !important;
+	font-size: 14px !important;
+	font-weight:400;
+	margin-left:0px;
+	overflow:auto;
+	display:block;
+}
+.grid_wheel_type {
+    color: #808080 !important;
+}
+.tooltip-inner {
+    text-align: left;
+}

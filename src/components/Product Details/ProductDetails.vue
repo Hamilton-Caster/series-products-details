@@ -336,6 +336,7 @@ export default {
         align-items: center;
         justify-content: space-between;
         border-bottom: 2px solid $borderColor;
+        margin-top: 1.5rem;
 
         .button-group {
           margin-right: 3rem;

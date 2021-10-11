@@ -111,7 +111,7 @@ export default {
           classList += ' hide'
         }
       }
-      if (header.PersistPriority === 99 && !header.FieldHasHyperLink) {
+      if (header.PersistPriority !== 99 || header.FieldHasHyperLink) {
         classList += ' light'
       }
       return classList

@@ -53,7 +53,7 @@
       v-else>
 
       <img
-        v-if="hasPronto"
+        v-if="hasPronto && listType === 'Casters'"
         title="24-48 Hour PRONTO® Shipment."
         src="/portals/0/Support/images/star.png"
         class="pronto-shipment-star img">
@@ -78,6 +78,9 @@ export default {
       type: Object
     },
     basePartDetailsUrl: {
+      type: String
+    },
+    listType: {
       type: String
     }
   },

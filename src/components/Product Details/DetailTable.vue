@@ -43,6 +43,7 @@
                 <table-cell-content
                   :base-part-details-url="basePartDetailsUrl"
                   :header="header"
+                  :list-type="wheelTypeList"
                   :row="row" />
               </template>
             </td>

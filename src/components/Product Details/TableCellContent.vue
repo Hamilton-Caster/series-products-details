@@ -16,7 +16,7 @@
             <img
               v-if="getBearingHasPronto(data)"
               title="24-48 Hour PRONTO® Shipment."
-              src="/portals/0/Support/images/star.png"
+              src="/portals/0/Support/images/star-small.png"
               class="pronto-shipment-star img">
           </a>
         </template>
@@ -29,7 +29,7 @@
       <img
         v-if="hasPronto"
         title="24-48 Hour PRONTO® Shipment."
-        src="/portals/0/Support/images/star.png"
+        src="/portals/0/Support/images/star-small.png"
         class="pronto-shipment-star img">
       <font-awesome-icon
         v-if="hasWarranty"
@@ -43,7 +43,7 @@
       <img
         v-if="hasPronto"
         title="24-48 Hour PRONTO® Shipment."
-        src="/portals/0/Support/images/star.png"
+        src="/portals/0/Support/images/star-small.png"
         class="pronto-shipment-star img">
       <span
         v-html="convertToFraction(row[header.propName])"></span>
@@ -55,7 +55,7 @@
       <img
         v-if="hasPronto && listType === 'Casters'"
         title="24-48 Hour PRONTO® Shipment."
-        src="/portals/0/Support/images/star.png"
+        src="/portals/0/Support/images/star-small.png"
         class="pronto-shipment-star img">
       <font-awesome-icon
         v-if="hasWarranty"
@@ -218,6 +218,10 @@ export default {
 
     .pronto-shipment-star {
       margin-top: 0;
+      &.img {
+        width: 12px;
+        height: 10px;
+      }
     }
 
     sup, sub {

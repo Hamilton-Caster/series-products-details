@@ -468,6 +468,9 @@ export default {
     @media screen and (min-width: $large) {
       flex-direction: row;
     }
+    > span {
+      margin-right: .5rem;
+    }
   }
 
   .detail-table-wrap {

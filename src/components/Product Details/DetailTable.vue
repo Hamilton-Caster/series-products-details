@@ -209,7 +209,7 @@ export default {
 
   .pronto-shipment-star {
     color: $primaryColor;
-    font-size: .9rem;
+    font-size: .7rem;
     height: .9rem;
 
 

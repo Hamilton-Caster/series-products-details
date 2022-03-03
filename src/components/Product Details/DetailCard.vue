@@ -162,11 +162,22 @@ export default {
 <style lang="scss">
 @import "../../assets/variables";
 
+.detail-card {
+  .pronto-shipment-star {
+    &.img {
+      margin-top: 0;
+    }
+
+    position: relative;
+    top: -.5rem;
+  }
+}
+
 .pronto-shipment-star {
-  margin-left: .25rem;
-  margin-right: .25rem;
-  font-size: .9rem;
-  height: .9rem;
+  margin-left: .125rem;
+  margin-right: .125rem;
+  font-size: .7rem;
+  height: .7rem;
 
   &.img {
     margin-top: -.3rem;

@@ -17,16 +17,16 @@
               :href="getLinkUrl(headerItem[headerItem.FieldName])">
               <span
                 v-html="getDisplayValue(headerItem[headerItem.FieldName])"></span>
-              <img
-                v-if="hasPronto"
-                title="24-48 Hour PRONTO® Shipment."
-                src="/portals/0/Support/images/star.png"
-                class="pronto-shipment-star img">
               <font-awesome-icon
                 v-if="hasWarranty"
                 title="Hamilton’s Three Year Product Warranty."
                 class="pronto-shipment-star"
                 :icon="['fas', 'shield-check']" />
+              <img
+                v-if="hasPronto"
+                title="24-48 Hour PRONTO® Shipment."
+                src="/portals/0/Support/images/star.png"
+                class="pronto-shipment-star img">
 
             </a>
           </h3>

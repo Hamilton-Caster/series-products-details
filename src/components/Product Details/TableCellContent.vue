@@ -26,44 +26,43 @@
       class="product-link"
       v-else-if="header.FieldHasHyperLink"
       :href="getLinkUrl(row[header.propName])">
-      <img
-        v-if="hasPronto"
-        title="24-48 Hour PRONTO® Shipment."
-        src="/portals/0/Support/images/star-small.png"
-        class="pronto-shipment-star img">
+      <span
+        v-html="getDisplayValue()"></span>
       <font-awesome-icon
         v-if="hasWarranty"
         title="Hamilton’s Three Year Product Warranty."
         class="pronto-shipment-star"
         :icon="['fas', 'shield-check']" />
-      <span
-        v-html="getDisplayValue()"></span>
-    </a>
-    <template v-else-if="header.IsFractionColumn">
       <img
         v-if="hasPronto"
         title="24-48 Hour PRONTO® Shipment."
         src="/portals/0/Support/images/star-small.png"
         class="pronto-shipment-star img">
+    </a>
+    <template v-else-if="header.IsFractionColumn">
       <span
         v-html="convertToFraction(row[header.propName])"></span>
+      <img
+        v-if="hasPronto"
+        title="24-48 Hour PRONTO® Shipment."
+        src="/portals/0/Support/images/star-small.png"
+        class="pronto-shipment-star img">
     </template>
 
     <template
       v-else>
-
+      <span
+        v-html="getDisplayValue()"></span>
+      <font-awesome-icon
+        v-if="hasWarranty"
+        title="Hamilton’s Three Year Product Warranty."
+        class="pronto-shipment-star"
+        :icon="['fas', 'shield-check']" />
       <img
         v-if="hasPronto && listType === 'Casters'"
         title="24-48 Hour PRONTO® Shipment."
         src="/portals/0/Support/images/star-small.png"
         class="pronto-shipment-star img">
-      <font-awesome-icon
-        v-if="hasWarranty"
-        title="Hamilton’s Three Year Product Warranty."
-        class="pronto-shipment-star"
-        :icon="['fas', 'shield-check']" />
-      <span
-        v-html="getDisplayValue()"></span>
     </template>
   </div>
 </template>
@@ -186,6 +185,8 @@ export default {
 
     &.img {
       margin-top: -.3rem;
+      width: 12px;
+      height: 10px;
     }
   }
 
@@ -244,7 +245,22 @@ export default {
       img {
         &.pronto-shipment-star {
           margin-top: 0;
+          top: 0;
         }
+      }
+    }
+    .product-link {
+      > span {
+        padding-right: .3rem;
+      }
+    }
+    .pronto-shipment-star {
+      position: relative;
+      top: -.3rem;
+      &.img {
+        margin-top: .2rem;
+        width: 12px;
+        height: 10px;
       }
     }
   }

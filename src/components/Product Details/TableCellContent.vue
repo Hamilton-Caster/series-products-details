@@ -28,16 +28,16 @@
       :href="getLinkUrl(row[header.propName])">
       <span
         v-html="getDisplayValue()"></span>
-      <font-awesome-icon
-        v-if="hasWarranty"
-        title="Hamilton’s Three Year Product Warranty."
-        class="pronto-shipment-star"
-        :icon="['fas', 'shield-check']" />
       <img
         v-if="hasPronto"
         title="24-48 Hour PRONTO® Shipment."
         src="/portals/0/Support/images/star-small.png"
         class="pronto-shipment-star img">
+      <font-awesome-icon
+        v-if="hasWarranty"
+        title="Hamilton’s Three Year Product Warranty."
+        class="pronto-shipment-star"
+        :icon="['fas', 'shield-check']" />
     </a>
     <template v-else-if="header.IsFractionColumn">
       <span
@@ -53,16 +53,16 @@
       v-else>
       <span
         v-html="getDisplayValue()"></span>
-      <font-awesome-icon
-        v-if="hasWarranty"
-        title="Hamilton’s Three Year Product Warranty."
-        class="pronto-shipment-star"
-        :icon="['fas', 'shield-check']" />
       <img
         v-if="hasPronto && listType === 'Casters'"
         title="24-48 Hour PRONTO® Shipment."
         src="/portals/0/Support/images/star-small.png"
         class="pronto-shipment-star img">
+      <font-awesome-icon
+        v-if="hasWarranty"
+        title="Hamilton’s Three Year Product Warranty."
+        class="pronto-shipment-star"
+        :icon="['fas', 'shield-check']" />
     </template>
   </div>
 </template>
@@ -256,12 +256,17 @@ export default {
     }
     .pronto-shipment-star {
       position: relative;
-      top: -.3rem;
+      top: -.25rem;
       &.img {
         margin-top: .2rem;
         width: 12px;
         height: 10px;
       }
+    }
+    svg.pronto-shipment-star {
+      height: 10px;
+      top: -.385rem;
+
     }
   }
 

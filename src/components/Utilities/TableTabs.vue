@@ -1,21 +1,16 @@
 <template>
   <div class="table-tabs">
-    <md-tabs
-      :md-active-tab="selectedTab"
-      @md-changed="onTabChanged">
-      <template
-        slot="md-tab"
-        slot-scope="{ tab }">
-        <div
-          class="thumb-tab"
-          v-if="tab.data.tabData != null">
-          <div
-            class="img-wrap"
-            v-if="tab.data.tabData.ImageURL">
-            <img
-              class="thumb-img"
-              :src="tab.data.tabData.ImageURL"
-              :alt="getTabTitle(tab)">
+    <md-tabs :md-active-tab="selectedTab"
+             @md-changed="onTabChanged">
+      <template slot="md-tab"
+                slot-scope="{ tab }">
+        <div class="thumb-tab"
+             v-if="tab.data.tabData != null">
+          <div class="img-wrap"
+               v-if="tab.data.tabData.ImageURL">
+            <img class="thumb-img"
+                 :src="tab.data.tabData.ImageURL"
+                 :alt="getTabTitle(tab)">
           </div>
           <div class="thumb-text">
             <h3 class="thumb-tab-heading" v-html="getTabTitle(tab)"></h3>
@@ -24,17 +19,19 @@
         </div>
         <div v-else class="simple-tab-title">
           {{ getTabTitle(tab) }}
+
         </div>
+
       </template>
-      <md-tab
-        v-for="tab in tabs"
-        :key="tab.value"
-        :id="tab.value"
-        :md-label="tab.name"
-        :md-template-data="{ tabData: tab.tabData}"
-        :md-ripple="false" />
+      <md-tab v-for="tab in tabs"
+              :key="tab.value"
+              :id="tab.value"
+              :md-label="tab.name"
+              :md-template-data="{ tabData: tab.tabData}"
+              :md-ripple="false" />
     </md-tabs>
   </div>
+ 
 </template>
 
 <script>
@@ -212,5 +209,6 @@
     color: rgba(109,110,112,1);
     font-size: 1.375rem;
   }
+ 
 
 </style>

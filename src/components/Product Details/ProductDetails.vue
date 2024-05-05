@@ -1,45 +1,71 @@
 <template>
-  <md-empty-state
-    v-if="error != null">
+  <md-empty-state v-if="error != null">
     <font-awesome-icon class="md-empty-state-icon" :icon="['fad', 'sad-tear']" />
     <strong class="md-empty-state-label">An error has occurred</strong>
     <p class="md-empty-state-description">
       <span>{{ error }}</span><br>Please try again later
     </p>
-    <md-button
-      @click="goHome"
-      class="md-raised">
+    <md-button @click="goHome"
+               class="md-raised">
       Go Hamilton Home Page
     </md-button>
   </md-empty-state>
-  <div
-    v-else
-    class="detail-table-wrap clear">
+  <div v-else
+       class="detail-table-wrap clear">
     <spinner class="spinner" v-show="showSpinner" />
+
     <div v-show="!showSpinner">
       <div class="table-meta-header">
         <div class="info">
           <h2>Available {{ headingText }}</h2>
         </div>
         <div class="controls clearfix">
-          <table-tabs
-            v-if="typeOptions.length > 0"
-            :tabs="typeOptions"
-            :selected-tab="groupValue"
-            @change="onTypeChange" />
+          <table-tabs v-if="typeOptions.length > 0"
+                      :tabs="typeOptions"
+                      :selected-tab="groupValue"
+                      @change="onTypeChange" />
+          <div class="simple-tab-video" v-if="headingText === 'Casters'">
+            <a id="imageLink" v-on:click="openHelpVideo(headingText)">
+              <template v-if="hasClickedCastersHelp !== '1'">
+                <img style="width: 14vw;" src="/portals/0/Images/How_to_grid_Caster.jpg" alt="Caster Image">
+              </template>
+              <template v-else>
+                <span class="hc_howtovideolink">See how to use the grid</span>
+              </template>
+            </a>
+          </div>
+          <div class="simple-tab-video" v-else-if="headingText === 'Wheels'">
+            <a id="imageLink" v-on:click="openHelpVideo(headingText)">
+              <template v-if="hasClickedWheelsHelp !== '1'">
+                  <img style="width: 14vw;" src="/portals/0/Images/How_to_grid_Wheel.jpg" alt="Wheel Image">
+              </template>
+              <template v-else>
+                <span class="hc_howtovideolink">See how to use the grid</span>
+              </template>
+             
+            </a>
+          </div>
+
         </div>
+        <vue-modality ref="helpvideocaster" hide-footer centered width="45vw" title="How to use Grid">
+          <img src="/portals/0/Images/castergridvideo.webp" alt="Animated Caster Video">
+        </vue-modality>
+        <vue-modality ref="helpvideowheel" hide-footer centered width="45vw" title="How to use Grid">
+          <img src="/portals/0/Images/wheelgridvideo.webp" alt="Animated Wheel Video">
+        </vue-modality>
+
         <div class="tools">
           <div class="pronto-shipment">
-              <span>
-                <img
-                  title="24-48 Hour PRONTO® Shipment."
-                  src="/portals/0/Support/images/star.png"
-                  class="pronto-shipment-star img">
-                = 24-48 Hour PRONTO® Shipment.</span>
+            <span>
+              <img title="24-48 Hour PRONTO® Shipment."
+                   src="/portals/0/Support/images/star.png"
+                   class="pronto-shipment-star img">
+              = 24-48 Hour PRONTO® Shipment.
+            </span>
             <a href="/Warranty">
-              <font-awesome-icon
-                class="pronto-shipment-star"
-                :icon="['fas', 'shield-check']" /> = Hamilton’s Three Year Product Warranty.</a>
+              <font-awesome-icon class="pronto-shipment-star"
+                                 :icon="['fas', 'shield-check']" /> = Hamilton’s Three Year Product Warranty.
+            </a>
           </div>
         </div>
       </div>
@@ -53,49 +79,54 @@
       <!--        :hide-low-priority="hideLowPriority"-->
       <!--        :selected-group-option="selectedGroupOption"-->
       <!--        :base-part-details-url="basePartDetailsUrl" />-->
-      <detail-card
-        class="detail-card"
-        :table-rows="tableRows"
-        :original-table-rows="originalTableRows"
-        :empty-cols-length="emptyColsLength"
-        :group-value="groupValue"
-        :headers="headers"
-        :selected-group-option="selectedGroupOption"
-        :base-part-details-url="basePartDetailsUrl"
-        :sort-details.sync="sortDetails"
-        :wheel-type-list="wheelTypeInfo" />
+      <detail-card class="detail-card"
+                   :table-rows="tableRows"
+                   :original-table-rows="originalTableRows"
+                   :empty-cols-length="emptyColsLength"
+                   :group-value="groupValue"
+                   :headers="headers"
+                   :selected-group-option="selectedGroupOption"
+                   :base-part-details-url="basePartDetailsUrl"
+                   :sort-details.sync="sortDetails"
+                   :wheel-type-list="wheelTypeInfo" />
 
-      <detail-table
-        class="detail-table"
-        :table-rows="tableRows"
-        :original-table-rows="originalTableRows"
-        :empty-cols-length="emptyColsLength"
-        :group-value="groupValue"
-        :headers="headers"
-        :selected-group-option="selectedGroupOption"
-        :base-part-details-url="basePartDetailsUrl"
-        :sort-details.sync="sortDetails"
-        :wheel-type-list="wheelTypeInfo" />
+      <detail-table class="detail-table"
+                    :table-rows="tableRows"
+                    :original-table-rows="originalTableRows"
+                    :empty-cols-length="emptyColsLength"
+                    :group-value="groupValue"
+                    :headers="headers"
+                    :selected-group-option="selectedGroupOption"
+                    :base-part-details-url="basePartDetailsUrl"
+                    :sort-details.sync="sortDetails"
+                    :wheel-type-list="wheelTypeInfo" />
     </div>
   </div>
+ 
+   
+ 
 </template>
 
 <script>
-import {getListAPI} from '../../api'
+import { getListAPI } from '../../api'
 import DetailTable from './DetailTable'
 import utilities from '../../utilities/helpers'
 import {SortDirection} from '../enums'
 import TableTabs from '../Utilities/TableTabs'
 import Spinner from '../Utilities/Spinner'
 import DetailCard from './DetailCard'
+import VueModality from 'vue-modality'
+import VueCookies from 'vue-cookies'
 
-export default {
+ export default {
   name: 'product-details',
   components: {
     DetailCard,
     Spinner,
     TableTabs,
-    DetailTable
+    DetailTable,
+    VueModality,
+    VueCookies
   },
   props: {
     moduleId: {
@@ -153,7 +184,9 @@ export default {
       tableRows: [],
       typeOptions: [],
       wheelTypeInfo: null,
-      error: null
+      error: null,
+      hasClickedCastersHelp: $cookies.get('hasClickedCasterGridVideo'),
+      hasClickedWheelsHelp: $cookies.get('hasClickedWheelGridVideo')
     }
   },
   computed: {
@@ -188,7 +221,9 @@ export default {
         let bearingType = res.BearingType || null
         this.buildHeaders(res.GridHeaderInfo, bearingType)
         this.buildRows(res.GridPartsInfo)
-        this.showSpinner = false
+        this.showSpinner = false;
+       //let prodFamily = res.WheelTypeInfo.length > 1 ? 'Casters' : 'Wheels';
+        
       })
       .catch(err => this.error = err)
     },
@@ -300,11 +335,32 @@ export default {
     },
     goHome () {
       window.location.href = '/'
-    }
+    },
+    openHelpVideo(productFamily) {
+      //console.log(productFamily);
+      // console.log($refs.helpvideo);
+      if (productFamily === 'Casters') {
+        if (!$cookies.get('hasClickedCasterGridVideo')) {
+            $cookies.set('30d', '', '', true)
+                       .set('hasClickedCasterGridVideo', '1');
+        }
+     
+        this.$refs.helpvideocaster.open();
+      }
+      if (productFamily === 'Wheels') {
+        if (!$cookies.get('hasClickedWheelGridVideo')) {
+             $cookies.set('30d', '', '', true)
+                       .set('hasClickedWheelGridVideo', '1');
+        }
+        this.$refs.helpvideowheel.open();
+      }
+     
+    },
   },
   created () {
     this.moduleService[`svc-${this.moduleId}`] = this.svc
     this.getList()
+    
   },
   mounted () {
   }
@@ -313,24 +369,33 @@ export default {
 
 <style lang="scss">
   @import "../../assets/variables";
-
+  .hc_howtovideolink{
+  padding:5px;
+  position:relative;
+  top:15px;
+  font-weight:bold;
+  }
   .table-meta-header {
     margin-bottom: .5rem;
 
     > div {
       display: flex;
       flex-direction: column;
-      @media screen and (min-width: $large)  {
+
+      @media screen and (min-width: $large) {
         flex-direction: row;
       }
+
       &.info {
         padding-top: 1rem;
-        @media screen and (min-width: $large)  {
+
+        @media screen and (min-width: $large) {
           padding-top: unset;
           flex-direction: row;
           justify-content: space-between;
         }
       }
+
       &.controls {
         display: block;
         align-items: center;
@@ -342,9 +407,11 @@ export default {
           float: left;
         }
       }
+
       .toggle-button-label {
       }
     }
+
     .tools {
       display: flex;
       flex-direction: column;
@@ -352,7 +419,7 @@ export default {
       padding-bottom: 1.4rem;
       margin-top: .5rem;
 
-      @media screen and (min-width: $large)  {
+      @media screen and (min-width: $large) {
         margin-top: 1rem;
         justify-content: flex-end;
         padding-top: unset;
@@ -366,7 +433,8 @@ export default {
         align-items: center;
         margin-bottom: .6rem;
         margin-top: 1rem;
-        @media screen and (min-width: $large)  {
+
+        @media screen and (min-width: $large) {
           margin-top: unset;
           margin-left: 2rem;
         }
@@ -379,9 +447,11 @@ export default {
 
         .md-field {
           width: calc(100% - 3rem);
+
           @media screen and (min-width: $medium) {
             width: calc(100% - 4rem);
           }
+
           border: 1px solid $borderColor;
           background-color: $white;
           padding: 0;
@@ -391,7 +461,6 @@ export default {
 
           .md-menu.md-select {
             border: 1px solid $borderColor;
-
           }
 
           label {
@@ -454,7 +523,6 @@ export default {
         }
       }
     }
-
   }
 
   .pronto-shipment {
@@ -483,6 +551,10 @@ export default {
   }
   .detail-card {
     display: block;
+  }
+  .simple-tab-video {
+    color: rgba(109,110,112,1);
+    font-size: 1.375rem;
   }
 
   @media screen and (min-width: $medium) {

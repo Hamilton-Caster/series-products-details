@@ -17,34 +17,34 @@
     <div v-show="!showSpinner">
       <div class="table-meta-header">
         <div class="info">
-          <h2>Available {{ headingText }}</h2>
+          <h2>Available {{ headingText }}</h2> 
+          <span class="simple-tab-video" v-if="headingText === 'Casters'">
+               <a id="imageLink" v-on:click="openHelpVideo(headingText)">
+              <template v-if="hasClickedCastersHelp !== '1'">
+                <B>LEARN MORE:</b>&nbsp;<font-awesome-icon :icon="['fas', 'play-circle']"></font-awesome-icon>&nbsp;How to view product details
+              </template>
+              <template v-else>
+                  <font-awesome-icon :icon="['fas', 'play-circle']"></font-awesome-icon>
+              </template>
+            </a>
+          </span>
+          <span  class="simple-tab-video" v-else-if="headingText === 'Wheels'">
+            <a id="imageLink" v-on:click="openHelpVideo(headingText)">
+              <template v-if="hasClickedWheelsHelp !== '1'">
+                   <B>LEARN MORE:</b> &nbsp;<font-awesome-icon :icon="['fas', 'play-circle']" /> &nbsp;How to view product details
+              </template>
+              <template v-else>
+                <font-awesome-icon class="md-empty-state-icon" :icon="['fas', 'play-circle']" />
+              </template>
+            </a>
+          </span>
         </div>
         <div class="controls clearfix">
           <table-tabs v-if="typeOptions.length > 0"
                       :tabs="typeOptions"
                       :selected-tab="groupValue"
                       @change="onTypeChange" />
-          <div class="simple-tab-video" v-if="headingText === 'Casters'">
-            <a id="imageLink" v-on:click="openHelpVideo(headingText)">
-              <template v-if="hasClickedCastersHelp !== '1'">
-                <img style="width: 14vw;" src="/portals/0/Images/How_to_grid_Caster.jpg" alt="Caster Image">
-              </template>
-              <template v-else>
-                <span class="hc_howtovideolink">See how to use the grid</span>
-              </template>
-            </a>
-          </div>
-          <div class="simple-tab-video" v-else-if="headingText === 'Wheels'">
-            <a id="imageLink" v-on:click="openHelpVideo(headingText)">
-              <template v-if="hasClickedWheelsHelp !== '1'">
-                  <img style="width: 14vw;" src="/portals/0/Images/How_to_grid_Wheel.jpg" alt="Wheel Image">
-              </template>
-              <template v-else>
-                <span class="hc_howtovideolink">See how to use the grid</span>
-              </template>
-             
-            </a>
-          </div>
+        
 
         </div>
         <vue-modality ref="helpvideocaster" hide-footer centered width="45vw" title="How to use Grid">
@@ -392,7 +392,6 @@ import VueCookies from 'vue-cookies'
         @media screen and (min-width: $large) {
           padding-top: unset;
           flex-direction: row;
-          justify-content: space-between;
         }
       }
 
@@ -407,9 +406,7 @@ import VueCookies from 'vue-cookies'
           float: left;
         }
       }
-
-      .toggle-button-label {
-      }
+     
     }
 
     .tools {
@@ -544,8 +541,7 @@ import VueCookies from 'vue-cookies'
   .detail-table-wrap {
     min-height: 30rem;
   }
-  .spinner {
-  }
+  
   .detail-table {
     display: none;
   }
@@ -553,8 +549,11 @@ import VueCookies from 'vue-cookies'
     display: block;
   }
   .simple-tab-video {
-    color: rgba(109,110,112,1);
-    font-size: 1.375rem;
+    color: rgb(248, 4, 4);
+    display: flex;
+    justify-content: center; /* Align horizontal */
+    align-items: center; /* Align vertical */
+    padding:19px;
   }
 
   @media screen and (min-width: $medium) {

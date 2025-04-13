@@ -1,10 +1,11 @@
 
 
 <template>
-  <vue-modality ref="myRef" title="Modal" hide-footer centered>
+  <vue-modality
+    ref="myRef" title="Modal" hide-footer
+    centered>
     <img src="/portals/0/Images/castergridvideo.webp" alt="Animated Caster Video">
   </vue-modality>
- 
 </template>
 <script>
  

@@ -5,33 +5,35 @@
     <p class="md-empty-state-description">
       <span>{{ error }}</span><br>Please try again later
     </p>
-    <md-button @click="goHome"
-               class="md-raised">
+    <md-button
+      @click="goHome"
+      class="md-raised">
       Go Hamilton Home Page
     </md-button>
   </md-empty-state>
-  <div v-else
-       class="detail-table-wrap clear">
+  <div
+    v-else
+    class="detail-table-wrap clear">
     <spinner class="spinner" v-show="showSpinner" />
 
     <div v-show="!showSpinner">
       <div class="table-meta-header">
-        <div class="info">
-          <h2>Available {{ headingText }}</h2> 
+        <div :class="`${gridFilters ? 'infoRJustify' : 'info'}`">
+          <h2>Select {{ headingText }}</h2> 
           <span class="simple-tab-video" v-if="headingText === 'Casters'">
-               <a id="imageLink" v-on:click="openHelpVideo(headingText)">
+            <a id="imageLink" @click="openHelpVideo(headingText)">
               <template v-if="hasClickedCastersHelp !== '1'">
-                <B>LEARN MORE:</b>&nbsp;<font-awesome-icon :icon="['fas', 'play-circle']"></font-awesome-icon>&nbsp;How to view product details
+                <B>LEARN MORE:</b>&nbsp;<font-awesome-icon :icon="['fas', 'play-circle']" />&nbsp;How to view product details
               </template>
               <template v-else>
-                  <font-awesome-icon :icon="['fas', 'play-circle']"></font-awesome-icon>
+                <font-awesome-icon :icon="['fas', 'play-circle']" />
               </template>
             </a>
           </span>
-          <span  class="simple-tab-video" v-else-if="headingText === 'Wheels'">
-            <a id="imageLink" v-on:click="openHelpVideo(headingText)">
+          <span class="simple-tab-video" v-else-if="headingText === 'Wheels'">
+            <a id="imageLink" @click="openHelpVideo(headingText)">
               <template v-if="hasClickedWheelsHelp !== '1'">
-                   <B>LEARN MORE:</b> &nbsp;<font-awesome-icon :icon="['fas', 'play-circle']" /> &nbsp;How to view product details
+                <B>LEARN MORE:</b> &nbsp;<font-awesome-icon :icon="['fas', 'play-circle']" /> &nbsp;How to view product details
               </template>
               <template v-else>
                 <font-awesome-icon class="md-empty-state-icon" :icon="['fas', 'play-circle']" />
@@ -39,32 +41,45 @@
             </a>
           </span>
         </div>
-        <div class="controls clearfix">
-          <table-tabs v-if="typeOptions.length > 0"
-                      :tabs="typeOptions"
-                      :selected-tab="groupValue"
-                      @change="onTypeChange" />
-        
-
+        <div class="infoRJustify">
+          <filter-tabs
+            v-if="gridFilters != null"
+            :tabs="gridFilters"
+            :selected-tab="defaultFilterGroup"
+            :selected-filter-values="gridFilterSelectedValues"
+            :header-rows="headers"
+            @change="onFilterSelectionChange" />
         </div>
-        <vue-modality ref="helpvideocaster" hide-footer centered width="45vw" title="How to use Grid">
+        <div class="controls clearfix" v-if="typeOptions.length > 0 && gridFilters == null">
+          <table-tabs 
+            :tabs="typeOptions"
+            :selected-tab="groupValue"
+            @change="onTypeChange" />
+        </div>
+        <vue-modality
+          ref="helpvideocaster" hide-footer centered
+          width="45vw" title="How to use Grid">
           <img src="/portals/0/Images/castergridvideo.webp" alt="Animated Caster Video">
         </vue-modality>
-        <vue-modality ref="helpvideowheel" hide-footer centered width="45vw" title="How to use Grid">
+        <vue-modality
+          ref="helpvideowheel" hide-footer centered
+          width="45vw" title="How to use Grid">
           <img src="/portals/0/Images/wheelgridvideo.webp" alt="Animated Wheel Video">
         </vue-modality>
 
         <div class="tools">
           <div class="pronto-shipment">
             <span>
-              <img title="24-48 Hour PRONTO® Shipment."
-                   src="/portals/0/Support/images/star.png"
-                   class="pronto-shipment-star img">
+              <img
+                title="24-48 Hour PRONTO® Shipment."
+                src="/portals/0/Support/images/star.png"
+                class="pronto-shipment-star img">
               = 24-48 Hour PRONTO® Shipment.
             </span>
             <a href="/Warranty">
-              <font-awesome-icon class="pronto-shipment-star"
-                                 :icon="['fas', 'shield-check']" /> = Hamilton’s Three Year Product Warranty.
+              <font-awesome-icon
+                class="pronto-shipment-star"
+                :icon="['fas', 'shield-check']" /> = Hamilton’s Three Year Product Warranty.
             </a>
           </div>
         </div>
@@ -79,32 +94,31 @@
       <!--        :hide-low-priority="hideLowPriority"-->
       <!--        :selected-group-option="selectedGroupOption"-->
       <!--        :base-part-details-url="basePartDetailsUrl" />-->
-      <detail-card class="detail-card"
-                   :table-rows="tableRows"
-                   :original-table-rows="originalTableRows"
-                   :empty-cols-length="emptyColsLength"
-                   :group-value="groupValue"
-                   :headers="headers"
-                   :selected-group-option="selectedGroupOption"
-                   :base-part-details-url="basePartDetailsUrl"
-                   :sort-details.sync="sortDetails"
-                   :wheel-type-list="wheelTypeInfo" />
+      <detail-card
+        class="detail-card"
+        :table-rows="tableRows"
+        :original-table-rows="originalTableRows"
+        :empty-cols-length="emptyColsLength"
+        :group-value="groupValue"
+        :headers="headers"
+        :selected-group-option="selectedGroupOption"
+        :base-part-details-url="basePartDetailsUrl"
+        :sort-details.sync="sortDetails"
+        :wheel-type-list="wheelTypeInfo" />
 
-      <detail-table class="detail-table"
-                    :table-rows="tableRows"
-                    :original-table-rows="originalTableRows"
-                    :empty-cols-length="emptyColsLength"
-                    :group-value="groupValue"
-                    :headers="headers"
-                    :selected-group-option="selectedGroupOption"
-                    :base-part-details-url="basePartDetailsUrl"
-                    :sort-details.sync="sortDetails"
-                    :wheel-type-list="wheelTypeInfo" />
+      <detail-table
+        class="detail-table"
+        :table-rows="tableRows"
+        :original-table-rows="originalTableRows"
+        :empty-cols-length="emptyColsLength"
+        :group-value="groupValue"
+        :headers="headers"
+        :selected-group-option="selectedGroupOption"
+        :base-part-details-url="basePartDetailsUrl"
+        :sort-details.sync="sortDetails"
+        :wheel-type-list="wheelTypeInfo" />
     </div>
   </div>
- 
-   
- 
 </template>
 
 <script>
@@ -113,6 +127,7 @@ import DetailTable from './DetailTable'
 import utilities from '../../utilities/helpers'
 import {SortDirection} from '../enums'
 import TableTabs from '../Utilities/TableTabs'
+import FilterTabs from '../Utilities/FilterTabs'
 import Spinner from '../Utilities/Spinner'
 import DetailCard from './DetailCard'
 import VueModality from 'vue-modality'
@@ -124,9 +139,10 @@ import VueCookies from 'vue-cookies'
     DetailCard,
     Spinner,
     TableTabs,
+    FilterTabs,
     DetailTable,
     VueModality,
-    VueCookies
+    //VueCookies
   },
   props: {
     moduleId: {
@@ -167,6 +183,7 @@ import VueCookies from 'vue-cookies'
       filterList: [],
       filterProperty: null,
       groupValue: '',
+      defaultFilterGroup: '',
       headingText: null,
       productFilter: {
         filterLabel: null,
@@ -183,6 +200,8 @@ import VueCookies from 'vue-cookies'
       },
       tableRows: [],
       typeOptions: [],
+      gridFilters: [],
+      gridFilterSelectedValues: [],
       wheelTypeInfo: null,
       error: null,
       hasClickedCastersHelp: $cookies.get('hasClickedCasterGridVideo'),
@@ -221,7 +240,49 @@ import VueCookies from 'vue-cookies'
         let bearingType = res.BearingType || null
         this.buildHeaders(res.GridHeaderInfo, bearingType)
         this.buildRows(res.GridPartsInfo)
+        this.gridFilters = res.GridFilterInfo
         this.showSpinner = false;
+        //console.log(this.gridFilters);
+        if(this.gridFilters)
+        {
+          this.defaultFilterGroup = this.gridFilters[0].Name;
+          this.gridFilters.forEach((filter, index) =>{
+            //console.log(index);
+            if(index === 0)
+            {
+              //Always default to the first filter and first value so that we have a starting point.
+              var _filterValues = [];
+              filter.FilterValues.forEach((filtValue, index) =>{
+                  //console.log(filtValue);
+                  let newfilterValue = {
+                    fValue:filtValue.FilterValue,
+                    enabled: true,
+                    selected: (index === 0)
+                  };
+                  _filterValues.push(newfilterValue);
+              });
+              this.gridFilterSelectedValues.push({filterName: filter.Name, filterValues: _filterValues});
+              this.groupValue = res.WheelTypeInfo.length > 1 ?  filter.FilterValues[0].FilterValue + ' Caster' : filter.FilterValues[0].FilterValue; 
+            }
+            else{
+              //lets create an array of blank filter values. 
+              var _filterValues = [];
+              filter.FilterValues.forEach((filtValue, index) =>{
+                  //console.log(filtValue);
+                  let newfilterValue = {
+                    fValue:filtValue.FilterValue,
+                    enabled: true,
+                    selected: false
+                  };
+                  _filterValues.push(newfilterValue);
+              });
+              this.gridFilterSelectedValues.push({filterName: filter.Name, filterValues: _filterValues});
+            }
+            
+          })
+        }
+        //console.log(this.gridFilterSelectedValues);
+        //console.log(this.defaultFilterGroup);
        //let prodFamily = res.WheelTypeInfo.length > 1 ? 'Casters' : 'Wheels';
         
       })
@@ -283,11 +344,111 @@ import VueCookies from 'vue-cookies'
         })
         this.tableRows.push(rowValue)
       })
+      // console.log(this.tableRows);
+      //console.log(this.groupValue);
+      //console.log(this.typeOptions);
       this.originalTableRows = JSON.parse(JSON.stringify(this.tableRows))
       this.selectedGroupOption = this.typeOptions.find(option => option.value === this.groupValue)
       this.getFilters()
     },
+    onFilterSelectionChange ($event){
+      //console.log($event);
+      //First filter must always be the Caster Type or Wheel type.
+      this.gridFilterSelectedValues = $event;
+      var orgGridList = [...new Set(this.originalTableRows)];
+      var appliedfilterKeys = [];
+      //var filterKeyValues = [];
+      this.gridFilterSelectedValues.forEach((gridFilter, index)=>{
+          if(index === 0)
+          {
+            if(gridFilter.filterName === 'CASTER_TYPE')
+            {
+              let selectedCasterType = gridFilter.filterValues.find(casterType => casterType.selected === true);
+              this.selectedGroupOption = this.typeOptions.find(option => option.value === selectedCasterType.fValue + " Caster");
+              this.groupValue = selectedCasterType.fValue + " Caster";
+            }
+            else{
+              let selectedWheelType = gridFilter.filterValues.find(wheelType => wheelType.selected === true);
+              this.selectedGroupOption = this.typeOptions.find(option => option.value === selectedWheelType.fValue);
+              this.groupValue = selectedWheelType.fValue;
+            }
+          }
+          else{
+            //Lets check whether we need to apply filter or not. check the value of the filter itself.
+            let selectedFilterKey = gridFilter.filterValues.filter(selectedFilterKey => selectedFilterKey.selected === true);
+            if(selectedFilterKey.length > 0)
+            {
+              appliedfilterKeys.push(gridFilter);
+            }
+           /*  if(gridFilter.filterValue)
+            {
+              //lets apply the filter.
+              //console.log("APPLY FILTER");
+              //console.log(this.headers);
+              var propName = this.headers.find(field => field.FieldName === gridFilter.filterName);
+              filterKeys.push(propName.FieldProperty);
+              filterKeyValues.push(gridFilter.filterValues);
+              //console.log(propName);
+             
+              
+            } */
+          }
+      })
+        //const updatedGridList = orgGridList.filter(row => row[propName.FieldProperty] === gridFilter.filterValue);
+        //console.log(updatedGridList);
+       if(appliedfilterKeys.length > 0)
+       {
+          //console.log(appliedfilterKeys);
+          var updatedGridList = [];
+          switch(appliedfilterKeys.length){
+            case 1:
+                 updatedGridList = orgGridList.filter(row => (this.buildFilterWhereClause(row, this.getFilterFieldNameProperty(appliedfilterKeys[0].filterName), appliedfilterKeys[0].filterValues)));
+                break;
+            case 2:
+                 var updatedGridList = orgGridList.filter(row => (this.buildFilterWhereClause(row, this.getFilterFieldNameProperty(appliedfilterKeys[0].filterName), appliedfilterKeys[0].filterValues)) && (this.buildFilterWhereClause(row, this.getFilterFieldNameProperty(appliedfilterKeys[1].filterName), appliedfilterKeys[1].filterValues)));
+                break;
+            case 3:
+                var updatedGridList = orgGridList.filter(row => (this.buildFilterWhereClause(row, this.getFilterFieldNameProperty(appliedfilterKeys[0].filterName), appliedfilterKeys[0].filterValues)) && (this.buildFilterWhereClause(row, this.getFilterFieldNameProperty(appliedfilterKeys[1].filterName), appliedfilterKeys[1].filterValues)) & (this.buildFilterWhereClause(row, this.getFilterFieldNameProperty(appliedfilterKeys[2].filterName), appliedfilterKeys[2].filterValues)));
+                break;
+          }
+          this.tableRows = updatedGridList;
+       }
+       else{
+        this.tableRows = orgGridList;
+       }
+       //const updatedGridList = orgGridList.filter(row => row[filterKeys[0]] === filterKeyValues[0]);
+       // console.log(updatedGridList);
+     
+     
+    },
+    getFilterFieldNameProperty: function(filterName){
+      return this.headers.find(field => field.FieldName === filterName).FieldProperty;
+    },
+    buildFilterWhereClause: function(row, filterKey, filterKeyValues)
+    {
+      if(filterKeyValues.length > 0)
+      {
+        var returnFilters;
+        filterKeyValues.forEach((filterValue, index) =>{
+            if(filterValue.selected){
+              if(returnFilters){
+                  returnFilters += '||' + row[filterKey] === filterValue.fValue;
+              }
+              else{
+                returnFilters = row[filterKey] === filterValue.fValue;
+              }
+              
+            }
+        });
+        //console.log(returnFilters);
+        return returnFilters;
+      }
+      else{
+        return (1===1);
+      }
+    },
     onTypeChange ($event) {
+      //console.log($event);
       this.groupValue = $event
       this.selectedGroupOption = this.typeOptions.find(option => option.value === $event)
     },
@@ -388,11 +549,15 @@ import VueCookies from 'vue-cookies'
 
       &.info {
         padding-top: 1rem;
-
+        
         @media screen and (min-width: $large) {
           padding-top: unset;
           flex-direction: row;
         }
+      }
+      &.infoRJustify{
+        justify-content: flex-start;
+        min-width:50%;
       }
 
       &.controls {

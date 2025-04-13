@@ -5,7 +5,7 @@
     :module-id="moduleId"
     :is-modal="isModal"
     :edit-mode="editMode"
-    :detail-link="detailLink"/>
+    :detail-link="detailLink" />
 </template>
 
 <script>

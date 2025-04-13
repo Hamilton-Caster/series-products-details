@@ -117,64 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddContent.Action" xml:space="preserve">
-    <value>Edit CatalogGrid</value>
+  <data name="plCommodity.Help" xml:space="preserve">
+    <value>Please select a Commodity Code in order to display its Catalog Grid.</value>
   </data>
-  <data name="Grid_ProntoMsg.Text" xml:space="preserve">
-    <value>&lt;span class=Grid_Pronto&gt;&lt;font color='red'&gt;&amp;#9733;&lt;/font&gt; : available for 24 Hour &lt;B&gt;PRONTO&lt;SUP&gt;®&lt;/SUP&gt;&lt;/B&gt; shipment&lt;/span&gt;</value>
+  <data name="plPreText.Help" xml:space="preserve">
+    <value>Please enter text and/or HTML code into this textbox to be displayed before the Pronto/3YR/PrinterFriendly key.</value>
   </data>
-  <data name="Grid_SwivelOffsetMsg.Text" xml:space="preserve">
-    <value>&lt;P&gt;&lt;IMG style="FLOAT: top" src="/hac544/Portals/0/GridHelpImages/ModelNumber_help.gif"&gt;&amp;nbsp;&lt;br/&gt;&lt;FONT face=Arial&gt;Click on the Model Number to view details about the Caster.&lt;/FONT&gt;&lt;/P&gt;</value>
+  <data name="plPostText.Help" xml:space="preserve">
+    <value>Please enter text and/or HTML code into this textbox to be displayed after the Catalog Grid.</value>
   </data>
-  <data name="Grid_3YrWarrantyMsg.Text" xml:space="preserve">
-    <value>&lt;span class=Grid_ThreeYear&gt; &lt;span class='Grid_Column3YrWarranty'&gt;&lt;/span&gt; :Three Year Warranty applies&lt;/span&gt;</value>
+  <data name="plNoPronto.Help" xml:space="preserve">
+    <value>Please check this box to hide the Pronto Shipping header within the Catalog Grid.</value>
   </data>
-  <data name="Grid_ModelNumberMsg.Text" xml:space="preserve">
-    <value>&lt;P&gt;&lt;IMG style="FLOAT: top" src="/hac544/Portals/0/GridHelpImages/ModelNumber_help.gif"&gt;&amp;nbsp;&lt;br/&gt;&lt;FONT face=Arial&gt;Click on the Model Number to view details about the Caster.&lt;/FONT&gt;&lt;/P&gt;</value>
+  <data name="plNoThreeYear.Help" xml:space="preserve">
+    <value>Please check this box to hide the Three Year Warranty header within the Catalog Grid.</value>
   </data>
-  <data name="Grid_WheelBearingMsg.Text" xml:space="preserve">
-    <value>&lt;P&gt;&lt;IMG style="FLOAT: top" src="/hac544/Portals/0/GridHelpImages/WheelBearingSize_help.gif"&gt;&amp;nbsp;&lt;br/&gt;&lt;FONT face=Arial&gt;Click on the Bearing Size or Bore Size links to view details about the Wheel.&lt;/FONT&gt;&lt;/P&gt;</value>
+  <data name="plPrinterFriendly.Help" xml:space="preserve">
+    <value>If you would like to show a link to a printer friendly version of the Catalog Grid, then please uncheck this box and select a file.
+
+If you would not like to show a link to a printer friendly version of the Catalog Grid, then please leave this box checked.
+</value>
   </data>
-  <data name="Grid_WheelTypeMsg.Text" xml:space="preserve">
-    <value>&lt;P&gt;&lt;IMG style="FLOAT: top" src="/hac544/Portals/0/GridHelpImages/WheelType_help.gif"&gt;&amp;nbsp;&lt;br/&gt;&lt;FONT face=Arial&gt;Hover over the Wheel Type to see more information.&lt;/FONT&gt;&lt;/P&gt;</value>
+  <data name="plHeading.Help" xml:space="preserve">
+    <value>Please enter text and/or HTML code into this textbox to be displayed before the CatalogGrid, underneath the Pronto/3YR/PrinterFriendly key.</value>
   </data>
-  <data name="Grid_WheelTypesCaption.Text" xml:space="preserve">
-    <value>WHEEL CHOICES</value>
+  <data name="plDetailLink.Help" xml:space="preserve">
+    <value>Please select a page that contains the CatalogDetail module.  This page will be linked to from each part within the Catalog Grid.
+
+If there are no pages to choose from within the dropdown list, then please add the CatalogDetail module to a page within the site.</value>
   </data>
-  <data name="PDF_FooterColor.Text" xml:space="preserve">
-    <value>#000000</value>
+  <data name="plShowWheelTypes.Help" xml:space="preserve">
+    <value>Check this box if you want to display the wheel types for the Caster Series.</value>
   </data>
-  <data name="PDF_FooterFontType.Text" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="PDF_FooterSize.Text" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="PDF_FooterText_Left.Text" xml:space="preserve">
-    <value>www.hamiltoncaster.com</value>
-  </data>
-  <data name="PDF_FooterText_Right.Text" xml:space="preserve">
-    <value>Copyright © 2015 Hamilton Caster &amp; Mfg. Co.</value>
-  </data>
-  <data name="Grid_3YrWarrantyMsgPopup.Text" xml:space="preserve">
-    <value>&lt;P&gt;&lt;IMG style="FLOAT: top" src="/hac544/Portals/0/GridHelpImages/ModelNumber_help.gif"&gt;&amp;nbsp;&lt;br/&gt;&lt;FONT face=Arial&gt;Click on the Model Number to view details about the Caster.&lt;/FONT&gt;&lt;/P&gt;</value>
-  </data>
-  <data name="Grid_ProntoMsgPopup.Text" xml:space="preserve">
-    <value>&lt;P&gt;&lt;IMG style="FLOAT: top" src="/hac544/Portals/0/GridHelpImages/ModelNumber_help.gif"&gt;&amp;nbsp;&lt;br/&gt;&lt;FONT face=Arial&gt;Click on the Model Number to view details about the Caster.&lt;/FONT&gt;&lt;/P&gt;</value>
-  </data>
-  <data name="Grid_Pronto_WheelMsg.Text" xml:space="preserve">
-    <value>&lt;span class=Grid_Pronto&gt;&lt;font color='red'&gt;&amp;#9733;&lt;/font&gt; :available for 24 Hour &lt;B&gt;PRONTO&lt;SUP&gt;®&lt;/SUP&gt;&lt;/B&gt; shipment&lt;/span&gt;</value>
-  </data>
-  <data name="Grid_3YrWarrantyInline.Text" xml:space="preserve">
-    <value>&lt;sup&gt;&lt;font color='#37b3bb'&gt;&amp;nbsp;3YR&amp;nbsp;&lt;/font&gt;&lt;/sup&gt;</value>
-  </data>
-  <data name="Grid_3YrWarrantyHeader.Text" xml:space="preserve">
-    <value>3 YR.</value>
-  </data>
-  <data name="CASTER_TYPE.Text" xml:space="preserve">
-    <value>Caster Type</value>
-  </data>
-  <data name="DIAMETER_A.Text" xml:space="preserve">
-    <value>Wheel Size</value>
+  <data name="pl3YearWarranty.Help" xml:space="preserve">
+    <value>Enter the value you want to display for the 3 Year Warranty Tooltip</value>
   </data>
 </root>

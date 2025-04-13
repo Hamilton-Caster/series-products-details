@@ -12,6 +12,7 @@ import { faAngleRight } from '@fortawesome/pro-solid-svg-icons/faAngleRight'
 import { faArrowRight } from '@fortawesome/pro-solid-svg-icons/faArrowRight'
 import { faCaretDown } from '@fortawesome/pro-solid-svg-icons/faCaretDown'
 import { faCaretUp } from '@fortawesome/pro-solid-svg-icons/faCaretUp'
+import { faCaretRight } from '@fortawesome/pro-solid-svg-icons/faCaretRight'
 import { faSadTear } from '@fortawesome/pro-duotone-svg-icons/faSadTear'
 import { faShieldCheck } from '@fortawesome/pro-solid-svg-icons/faShieldCheck'
 import { faSortDown } from '@fortawesome/pro-duotone-svg-icons/faSortDown'
@@ -20,12 +21,15 @@ import { faSort } from '@fortawesome/pro-duotone-svg-icons/faSort'
 import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar'
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes'
 import { faPlayCircle} from '@fortawesome/pro-solid-svg-icons/faPlayCircle'
+import { faCheckCircle} from '@fortawesome/pro-solid-svg-icons/faCheckCircle'
+
 export default {
   faAngleDown,
   faAngleRight,
   faArrowRight,
   faCaretDown,
   faCaretUp,
+  faCaretRight,
   faSadTear,
   faShieldCheck,
   faSort,
@@ -33,5 +37,6 @@ export default {
   faSortUp,
   faStar,
   faTimes,
-  faPlayCircle
+  faPlayCircle,
+  faCheckCircle
 }

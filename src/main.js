@@ -23,6 +23,7 @@ Vue.use(VueAxios, axios)
 Vue.use(VueMaterial)
 Vue.material.ripple = false
 Vue.use(pagination)
+Vue.use(require('vue-cookies'))
 
 // Directives
 Vue.directive('scroll', Scroll)
@@ -33,7 +34,7 @@ Vue.component(FontAwesomeIcon.name, FontAwesomeIcon)
 Vue.component('app', require('./App').default)
 
 // Hide buggy error for vue-material library
-Vue.config.errorHandler = (err, vm, info) => {
+Vue.config.errorHandler = (err) => {
     // Show any error but this one
   if (err.message !== "Cannot read property 'badInput' of undefined") {
     console.error(err)

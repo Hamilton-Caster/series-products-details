@@ -25,7 +25,9 @@
         <font-awesome-icon
           :icon="['fad', sortIcon]" />
       </md-button>
-      <md-tooltip md-direction="left">Sort Direction</md-tooltip>
+      <md-tooltip md-direction="left">
+        Sort Direction
+      </md-tooltip>
     </div>
   </div>
 </template>

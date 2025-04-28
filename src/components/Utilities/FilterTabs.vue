@@ -319,6 +319,7 @@
       formatFilterValue: function(filterName, filterValue){
         //console.log(filterValue);
         var self = this;
+        var isNumeric = /^-?\d+(\.\d+)?$/.test(filterValue);
         const filterHeader = self.headerRows.find(field => field.FieldName === filterName);
         if(filterHeader){
           //console.log(filterHeader);
@@ -326,10 +327,24 @@
           {
             const convertedValue = this.convertToFraction(filterValue);
             //console.log("COnverted", convertedValue);
-            return convertedValue;
+           
+            if (!isNumeric)
+            {
+              return convertedValue;
+            }
+            else{
+              return "";
+            }
+            
           }
         }
-        return filterValue;
+        if(isNumeric){
+          return "";
+        }
+        else{
+          return filterValue;
+        }
+       
       },
       convertToFraction (value) {
       let amp = '@'

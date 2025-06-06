@@ -1,10 +1,7 @@
 <template>
-  <transition
-    name="fade"
-    mode="out-in">
-    <div class="responsive-table">
-      <table
-        class="series-table">
+  <transition name="fade" mode="out-in">
+    <div v-if="!noResults" class="responsive-table">
+      <table class="series-table">
         <!--    <colgroup>-->
         <!--      <col :span="emptyColsLength">-->
         <!--      <col :span="selectedGroupOption.cols" class="column-group">-->
@@ -51,8 +48,13 @@
         </tbody>
       </table>
     </div>
+    <div v-if="noResults" class="no-results-message">
+        <font-awesome-icon :icon="['fas', 'triangle-exclamation']" style="color: #d72027; margin-right: 0.5rem;" />
+        We don't currently offer any standard parts that match the filters you've selected. However, we can design a custom solution to meet your exact specifications. Please contact the factory at <a href="tel:513-863-3300">513-863-3300</a> to get started.
+    </div>
   </transition>
 </template>
+
 <script>
 import TableHeader from '../Shared/table-header'
 import WheelTypePopover from './wheel-type-popover'
@@ -95,6 +97,10 @@ export default {
     },
     wheelTypeList: {
       type: Array
+    },
+    noResults: { // <-- Add this prop
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -224,6 +230,11 @@ export default {
     }
   }
 
+}
+.no-results-message {
+    font-size: 1.5rem;
+    margin: 5% 10% 5% 10%;
+    line-height: 2rem;
 }
 
 </style>

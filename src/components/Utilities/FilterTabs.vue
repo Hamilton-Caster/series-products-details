@@ -84,6 +84,10 @@
       selectedFilterValues: {
         type:Array,
         default: () => []
+      },
+      noResults: {
+        type: Boolean,
+        default: false
       }
     },
     data: () => ({ activeFilterTab: ''}),
@@ -319,7 +323,7 @@
       formatFilterValue: function(filterName, filterValue){
         //console.log(filterValue);
         var self = this;
-        var isNumeric = /^-?\d+(\.\d+)?$/.test(filterValue);
+        var isNumeric = /^-?\d+(\.\d+)?( \d+\/\d+)?$/.test(filterValue);
         const filterHeader = self.headerRows.find(field => field.FieldName === filterName);
         if(filterHeader){
           //console.log(filterHeader);
@@ -583,5 +587,6 @@
   margin-left: 1rem;
   text-align: left;
  }
+
 
 </style>

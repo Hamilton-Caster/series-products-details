@@ -43,12 +43,13 @@
         </div>
         <div class="infoRJustify">
           <filter-tabs
-            v-if="gridFilters != null"
-            :tabs="gridFilters"
-            :selected-tab="defaultFilterGroup"
-            :selected-filter-values="gridFilterSelectedValues"
-            :header-rows="headers"
-            @change="onFilterSelectionChange" />
+  v-if="gridFilters != null"
+  :tabs="gridFilters"
+  :selected-tab="defaultFilterGroup"
+  :selected-filter-values="gridFilterSelectedValues"
+  :header-rows="headers"
+  :no-results="noResults"
+  @change="onFilterSelectionChange" />
         </div>
         <div class="controls clearfix" v-if="typeOptions.length > 0 && gridFilters == null">
           <table-tabs 
@@ -67,7 +68,7 @@
           <img src="/portals/0/Images/wheelgridvideo.webp" alt="Animated Wheel Video">
         </vue-modality>
 
-        <div class="tools">
+        <div class="tools" v-if="!noResults">
           <div class="pronto-shipment">
             <span>
               <img
@@ -116,7 +117,8 @@
         :selected-group-option="selectedGroupOption"
         :base-part-details-url="basePartDetailsUrl"
         :sort-details.sync="sortDetails"
-        :wheel-type-list="wheelTypeInfo" />
+        :wheel-type-list="wheelTypeInfo"
+        :no-results="noResults" />
     </div>
   </div>
 </template>
@@ -209,6 +211,9 @@ import VueCookies from 'vue-cookies'
     }
   },
   computed: {
+    noResults() {
+      return this.tableRows.length === 0;
+    }
   },
   watch: {
     sortDetails: {
